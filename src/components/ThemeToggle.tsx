@@ -4,9 +4,23 @@ import { motion } from "framer-motion";
 import { useTheme } from "@/context/ThemeContext";
 import Image from "next/image";
 
+let sharedAudioCtx: AudioContext | any = null;
+
 function playLightClick() {
   try {
-    const ctx = new AudioContext();
+    const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
+    if (!AudioCtx) return;
+    
+    if (!sharedAudioCtx) {
+      sharedAudioCtx = new AudioCtx();
+    }
+    const ctx = sharedAudioCtx;
+    
+    if (ctx.state === "suspended") {
+      ctx.resume().catch(() => {});
+    }
+    
+    // Use original timing
     const now = ctx.currentTime;
 
     const t1 = ctx.createOscillator();
@@ -39,9 +53,9 @@ function playLightClick() {
     ng.connect(ctx.destination);
     noise.start(now);
     noise.stop(now + 0.04);
-
-    setTimeout(() => ctx.close(), 300);
-  } catch {}
+  } catch (e) {
+    console.error(e);
+  }
 }
 
 export default function ThemeToggle() {

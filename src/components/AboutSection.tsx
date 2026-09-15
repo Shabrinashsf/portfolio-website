@@ -52,33 +52,30 @@ export default function AboutSection() {
       <GridBackground />
       <div className="relative z-10 px-8 md:px-16 max-w-7xl mx-auto py-12 md:py-16">
         {/* Header */}
-        <ScrollReveal className="mb-12">
-          <motion.div
-            initial={{ width: 0 }}
-            animate={{ width: 48 }}
-            transition={{ duration: 1.0, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="w-12 h-[1px] mb-4"
-            style={{ backgroundColor: "var(--accent)" }}
-          />
-          <span className="font-[Plus_Jakarta_Sans] text-xs font-semibold tracking-widest uppercase block mb-4"
-            style={{ color: "var(--accent-light)" }}
-          >
-            About Me
-          </span>
-          <h1 className="font-[Outfit] text-4xl md:text-5xl font-bold mb-4 leading-tight"
+        <ScrollReveal className="mb-8">
+          <h1 className="font-[Outfit] text-4xl md:text-5xl lg:text-6xl font-extrabold mb-3 leading-tight"
             style={{ color: "var(--text-primary)" }}
+          >
+            About me.
+          </h1>
+          <motion.h2
+            className="font-[Outfit] text-xl md:text-2xl font-medium tracking-wide border-l-2 pl-5 py-1"
+            style={{ color: "var(--text-secondary)", borderColor: "var(--accent)" }}
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
           >
             Crafting systems with{" "}
             <motion.span
-              className="italic inline-block"
+              className="italic inline-block font-semibold"
               style={{ color: "var(--accent)" }}
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
             >
-              passion
+              passion.
             </motion.span>
-          </h1>
+          </motion.h2>
         </ScrollReveal>
 
         {/* Bio */}
@@ -87,48 +84,39 @@ export default function AboutSection() {
             style={{ color: "var(--text-secondary)" }}
           >
             A Third-year Informatics Engineering student at ITS with{" "}
-            <span className="font-medium" style={{ color: "var(--accent)" }}>2 years</span> of{" "}
-            <span className="font-medium" style={{ color: "var(--accent)" }}>production experience</span> building scalable APIs using{" "}
-            <span className="font-medium" style={{ color: "var(--accent)" }}>Golang (Gin/Fiber)</span>,{" "}
-            <span className="font-medium" style={{ color: "var(--accent)" }}>PostgreSQL</span>, and{" "}
-            <span className="font-medium" style={{ color: "var(--accent)" }}>modern cloud infrastructure</span>.{" "}
+            <span className="font-medium" style={{ color: "var(--accent)" }}>2 years</span> of production experience building{" "}
+            <span className="font-medium" style={{ color: "var(--accent)" }}>Backend Systems</span> using{" "}
+            <span className="font-medium" style={{ color: "var(--accent)" }}>Golang (Gin/Fiber)</span> or{" "}
+            <span className="font-medium" style={{ color: "var(--accent)" }}>PHP (Laravel)</span>, and 1 year in{" "}
+            <span className="font-medium" style={{ color: "var(--accent)" }}>Frontend</span> Development using{" "}
+            <span className="font-medium" style={{ color: "var(--accent)" }}>NextJS</span> or{" "}
+            <span className="font-medium" style={{ color: "var(--accent)" }}>Laravel</span>.{" "}
+            Lead a team of 
+            <span className="font-medium" style={{ color: "var(--accent)" }}> 7+ developers</span> and delivering systems for{" "}
+            <span className="font-medium" style={{ color: "var(--accent)" }}>500,000+</span> total users.{" "}
           </p>
           <p className="font-[Plus_Jakarta_Sans] text-base md:text-lg leading-relaxed mb-8"
             style={{ color: "var(--text-secondary)" }}
           >
-            Proven track record leading teams of{" "}
-            <span className="font-medium" style={{ color: "var(--accent)" }}>7+ developers</span> and delivering systems for{" "}
-            <span className="font-medium" style={{ color: "var(--accent)" }}>30,000+ concurrent users</span>.{" "}
-            Specialized in high performance REST APIs, payment gateway integrations, database optimization, and DevOps; currently expanding my expertise in Product Management and Frontend development while maintaining strong technical expertise in system architecture and backend development.
+            Besides doing softeng and tech stuff, you can find me rotten in my room playing games. My favorite genre is{" "}
+            <span className="font-medium" style={{ color: "var(--accent)" }}>RPG/JRPG</span> or{" "}
+            <span className="font-medium" style={{ color: "var(--accent)" }}>Story</span>, my current all time fav is.{" "}
+            <span className="font-medium" style={{ color: "var(--accent)" }}>OMORI</span> (this website was created using many references from it).{" "}
+            <span className="font-medium" style={{ color: "var(--accent)" }}>Coffee</span>{" "}
+            is my fuel to start the day, but playing{" "}
+            <span className="font-medium" style={{ color: "var(--accent)" }}>Resident Evil</span> (especially RE4 Remake) or{" "}
+            <span className="font-medium" style={{ color: "var(--accent)" }}>Persona</span>, are my emotional support during the hard days.{" "}
           </p>
-
-          {/* Quote */}
-          <motion.div
-            className="border-l-2 pl-5 py-1"
-            style={{ borderColor: "var(--accent)" }}
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          >
-            <p className="font-[Plus_Jakarta_Sans] text-lg italic opacity-90"
-              style={{ color: "var(--accent-light)" }}
-            >
-              &quot;Fait avec amour&quot; — Made with love
-            </p>
-          </motion.div>
         </ScrollReveal>
 
         {/* Tech Stack */}
         <div>
           <ScrollReveal delay={0.1}>
-            <div className="flex items-center gap-3 mb-10">
-              <span className="w-12 h-[1px]" style={{ backgroundColor: "var(--accent)" }} />
-              <span className="font-[Plus_Jakarta_Sans] text-xs font-semibold tracking-widest uppercase"
-                style={{ color: "var(--accent-light)" }}
-              >
-                Tech Stack
-              </span>
-            </div>
+            <h1 className="font-[Outfit] text-4xl md:text-5xl lg:text-6xl font-extrabold mb-10 leading-tight"
+              style={{ color: "var(--text-primary)" }}
+            >
+              Tech Stack.
+            </h1>
           </ScrollReveal>
 
           {Object.entries(techStack).map(([category, items], categoryIndex) => (

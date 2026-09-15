@@ -147,7 +147,7 @@ export default function ProjectsSection() {
           <h1 className="font-[Outfit] text-4xl md:text-5xl lg:text-6xl font-extrabold mb-8 leading-tight"
             style={{ color: "var(--text-primary)" }}
           >
-            Projects
+            Projects.
           </h1>
 
           {/* Filters */}

@@ -13,12 +13,14 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <AudioProvider>
       <ThemeProvider>
-        <ThemeTransition />
-        <Navbar />
-        <main className="pt-16 flex-grow relative">
-          <Component {...pageProps} />
-        </main>
-        {router.pathname !== "/" && <Footer />}
+        <div className={`flex flex-col min-h-screen ${['/', '/contact', '/404'].includes(router.pathname) ? 'lg:h-screen lg:overflow-hidden' : ''}`}>
+          <ThemeTransition />
+          <Navbar />
+          <main className="pt-16 flex-grow flex flex-col relative">
+            <Component {...pageProps} />
+          </main>
+          <Footer />
+        </div>
       </ThemeProvider>
     </AudioProvider>
   );

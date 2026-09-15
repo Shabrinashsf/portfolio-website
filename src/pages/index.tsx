@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Link from "next/link";
+import Image from "next/image";
 import { motion, Variants } from "framer-motion";
 import {
   StaggerContainer,
@@ -8,7 +9,7 @@ import {
 } from "@/components/animations";
 import GridBackground from "@/components/GridBackground";
 
-const techStack = ["Go", "Gin", "Laravel", "PostgreSQL", "NextJS", "TypeScript", "Tailwind CSS"];
+const techStack = ["Go", "Gin", "PHP", "Laravel", "NextJS", "TypeScript", "Tailwind CSS"];
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
@@ -42,11 +43,11 @@ export default function Home() {
       </Head>
 
       <div
-        className="min-h-[calc(100vh-64px)] relative"
+        className="flex-grow flex flex-col justify-center relative"
         style={{ backgroundColor: "var(--bg-page)", color: "var(--text-primary)" }}
       >
         <GridBackground />
-        <div className="flex flex-col justify-center px-8 md:px-16 max-w-7xl mx-auto w-full relative z-10 py-12 md:py-16">
+        <div className="flex flex-col justify-center px-8 md:px-16 max-w-7xl mx-auto w-full relative z-10 py-6 md:py-8 lg:py-2">
           <section className="w-full">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
               {/* Left Side: Typography and Bio */}
@@ -95,7 +96,7 @@ export default function Home() {
                   <span className="font-[Plus_Jakarta_Sans] text-xs font-semibold tracking-widest uppercase"
                     style={{ color: "var(--accent-light)" }}
                   >
-                    &quot;This is the way.&quot;
+                    &quot;Fait avec amour.&quot;
                   </span>
                 </motion.div>
 
@@ -118,12 +119,7 @@ export default function Home() {
                 </motion.h1>
 
                 {/* Bio */}
-                <motion.div variants={itemVariants} className="mb-8 space-y-3">
-                  <p className="font-[Plus_Jakarta_Sans] text-base italic opacity-80"
-                    style={{ color: "var(--accent-light)" }}
-                  >
-                    Fait avec amour.
-                  </p>
+                <motion.div variants={itemVariants} className="mb-8 lg:mb-4 space-y-3">
                   <p className="font-[Plus_Jakarta_Sans] text-base md:text-lg max-w-xl leading-relaxed"
                     style={{ color: "var(--text-secondary)" }}
                   >
@@ -131,9 +127,17 @@ export default function Home() {
                     <span className="font-medium" style={{ color: "var(--accent)" }}>
                       Backend Developer
                     </span>{" "}
-                    currently exploring the beautiful chaos of Frontend
-                    engineering and Product Management. Building systems that
-                    scale and experiences that resonate.
+                    navigating the beautiful chaos of Frontend
+                    engineering and DevOps, while going down the rabbit hole of
+                    {" "}
+                    <span className="font-medium" style={{ color: "var(--accent)" }}>
+                      Software Architecture
+                    </span>{" "}
+                    and 
+                    {" "}
+                    <span className="font-medium" style={{ color: "var(--accent)" }}>
+                      System Design
+                    </span>{" "} lately.
                   </p>
                 </motion.div>
 
@@ -198,52 +202,29 @@ export default function Home() {
                 transition={{ duration: 1.1, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
               >
                 <Floating>
-                  <div className="relative w-64 h-72">
+                  <div className="relative aspect-square w-56 lg:w-72">
                     <div className="absolute -inset-0.5 rounded-2xl blur-lg opacity-50"
                       style={{ background: "linear-gradient(to top right, rgba(46,91,255,0.3), rgba(184,195,255,0.3))" }}
                     />
                     <div className="absolute -inset-4 border rounded-3xl transform rotate-3"
-                      style={{ borderColor: "var(--border-color)" }}
+                      style={{ borderColor: "#4a4b59" }}
                     />
                     <div className="absolute -inset-4 border rounded-3xl transform -rotate-2"
-                      style={{ borderColor: "var(--border-color)" }}
+                      style={{ borderColor: "#4a4b59" }}
                     />
                     <div className="relative w-full h-full rounded-2xl overflow-hidden border shadow-2xl flex items-center justify-center"
                       style={{
-                        borderColor: "var(--border-color)",
-                        backgroundColor: "var(--bg-card)",
+                        borderColor: "#4a4b59",
+                        backgroundColor: "#1b1b1f",
                       }}
                     >
-                      <div className="text-center px-4">
-                        <div className="w-16 h-16 mx-auto mb-3 rounded-full flex items-center justify-center"
-                          style={{ backgroundColor: "rgba(46,91,255,0.15)" }}
-                        >
-                          <svg
-                            className="w-8 h-8"
-                            style={{ color: "var(--accent)" }}
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={1.5}
-                              d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5"
-                            />
-                          </svg>
-                        </div>
-                        <p className="font-[Outfit] text-xl font-semibold"
-                          style={{ color: "var(--text-primary)" }}
-                        >
-                          Code.
-                        </p>
-                        <p className="font-[Plus_Jakarta_Sans] text-sm mt-1"
-                          style={{ color: "var(--text-secondary)" }}
-                        >
-                          Create. Deploy.
-                        </p>
-                      </div>
+                      <Image
+                        src="/img/profile.jpeg"
+                        alt="Profile Picture"
+                        fill
+                        className="object-cover"
+                        priority
+                      />
                     </div>
                   </div>
                 </Floating>
@@ -256,7 +237,7 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.5, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
             >
-            <StaggerContainer staggerDelay={0.18} className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
+            <StaggerContainer staggerDelay={0.18} className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-12">
               {/* Card 1: Experience */}
               <StaggerItem>
                 <motion.div

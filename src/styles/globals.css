@@ -33,6 +33,7 @@ body {
   --grid-color: rgba(0, 0, 0, 0.06);
   --accent: #2e5bff;
   --accent-light: #b8c3ff;
+  --image-invert: invert(1);
 }
 
 .dark {
@@ -49,6 +50,7 @@ body {
   --grid-color: rgba(255, 255, 255, 0.07);
   --accent: #2e5bff;
   --accent-light: #b8c3ff;
+  --image-invert: invert(0);
 }
 
 /* Glass navigation */
@@ -109,7 +111,12 @@ body {
 /* Smooth transitions on interactive elements only */
 a,
 button {
-  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    opacity 0.2s ease;
 }
 
 /* Disable transition for work experience logos */

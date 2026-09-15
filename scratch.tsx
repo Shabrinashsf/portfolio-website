@@ -43,8 +43,7 @@ export default function ContactSection() {
       style={{ backgroundColor: "var(--bg-page)", color: "var(--text-primary)" }}
     >
       <GridBackground />
-
-      <div className="relative z-10 px-8 md:px-16 max-w-4xl mx-auto py-10 lg:py-2 w-full">
+      <div className="relative z-10 px-8 md:px-16 max-w-4xl mx-auto py-6 lg:py-2 w-full">
         {/* Header */}
         <ScrollReveal className="mb-10 text-center">
           <h1 className="font-[Outfit] text-4xl md:text-5xl lg:text-6xl font-extrabold mb-5 leading-tight"
@@ -95,14 +94,14 @@ export default function ContactSection() {
 
         {/* Links Grid */}
         <ScrollReveal delay={0.2}>
-          <StaggerContainer staggerDelay={0.1} className="flex flex-col sm:flex-row flex-wrap justify-center items-center gap-4 md:gap-6 mt-8 sm:mt-12">
+          <StaggerContainer staggerDelay={0.1} className="flex flex-wrap justify-center gap-4 md:gap-6 mt-8">
             {socialLinks.map((link) => (
-              <StaggerItem key={link.name} className="w-full sm:w-auto">
+              <StaggerItem key={link.name}>
                 <motion.a
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 px-8 py-4 sm:py-3.5 rounded-xl border transition-colors glass-card-60 glass-border-hover w-full"
+                  className="flex items-center justify-center gap-3 px-8 py-3.5 rounded-xl border transition-colors glass-card-60 glass-border-hover"
                   whileHover={{ scale: 1.05, y: -4 }}
                   whileTap={{ scale: 0.95 }}
                   style={{
