@@ -1,40 +1,28 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+# Portfolio Website
 
-## Getting Started
+This is a personal portfolio website built with Next.js to showcase my projects and skills.
 
-First, run the development server:
+## How to run locally
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+1. Install dependencies using [bun](https://bun.sh/):
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+   ```bash
+   bun install
+   ```
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+2. Start the development server:
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+   ```bash
+   bun dev
+   ```
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+3. Open [http://localhost:3000](http://localhost:3000) in your browser to see the website.
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Available Commands
 
-## Learn More
+In the project directory, you can run the following commands:
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+- `bun dev` : Starts the development server. **This includes hot-reloading**, so any changes you make to the code will instantly reflect in the browser without needing a manual refresh.
+- `bun build` : Builds the app for production. It optimizes and compiles the code for the best performance.
+- `bun start` : Starts the production server locally (you need to run `bun build` first). Useful for testing the production build before deployment.
+- `bun lint` : Runs ESLint to analyze the code and find potential errors or formatting issues.
