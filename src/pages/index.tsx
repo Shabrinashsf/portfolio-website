@@ -8,6 +8,7 @@ import {
   Floating,
 } from "@/components/animations";
 import GridBackground from "@/components/GridBackground";
+import ArcanaSection from "@/components/ArcanaSection";
 
 const techStack = ["Go", "Gin", "PHP", "Laravel", "NextJS", "TypeScript", "Tailwind CSS"];
 
@@ -43,12 +44,12 @@ export default function Home() {
       </Head>
 
       <div
-        className="flex-grow flex flex-col justify-center relative"
+        className="flex-grow flex flex-col relative"
         style={{ backgroundColor: "var(--bg-page)", color: "var(--text-primary)" }}
       >
         <GridBackground />
-        <div className="flex flex-col justify-center px-8 md:px-16 max-w-7xl mx-auto w-full relative z-10 py-6 md:py-8 lg:py-2">
-          <section className="w-full">
+        <div className="flex flex-col justify-center px-8 md:px-16 max-w-7xl mx-auto w-full relative z-10 py-8 lg:py-0 min-h-[calc(100vh-4rem)]">
+          <section className="w-full my-auto">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
               {/* Left Side: Typography and Bio */}
               <motion.div
@@ -241,16 +242,21 @@ export default function Home() {
                 {/* Card 2: Main Stack */}
                 <StaggerItem>
                   <motion.div
-                    className="backdrop-blur-md border rounded-xl p-5 group shadow-sm h-full cursor-default glass-card-40 glass-card-hover"
+                    className="backdrop-blur-md border rounded-xl p-5 group shadow-sm h-full cursor-pointer glass-card-40 glass-card-hover"
                     whileHover={{ y: -4 }}
                     transition={{ type: "spring", stiffness: 180, damping: 28 }}
+                    onClick={() => {
+                      document.getElementById("shab-arcana")?.scrollIntoView({ behavior: "smooth" });
+                    }}
                   >
                     <div className="flex items-center justify-between mb-3">
-                      <h3 className="font-[Outfit] text-lg font-semibold tracking-wide"
-                        style={{ color: "var(--text-primary)" }}
-                      >
-                        Main Stack
-                      </h3>
+                      <div className="flex items-center space-x-2">
+                        <h3 className="font-[Outfit] text-lg font-semibold tracking-wide"
+                          style={{ color: "var(--text-primary)" }}
+                        >
+                          Main Stack
+                        </h3>
+                      </div>
                       <svg
                         className="w-5 h-5 transition-colors group-hover:text-[var(--accent)]"
                         style={{ color: "var(--text-muted)" }}
@@ -338,6 +344,9 @@ export default function Home() {
             </motion.div>
           </section>
         </div>
+
+        {/* Pick Shab Arcana (Persona 3 Edition) */}
+        <ArcanaSection />
       </div>
     </>
   );
