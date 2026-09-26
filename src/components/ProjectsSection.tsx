@@ -144,10 +144,10 @@ export default function ProjectsSection() {
       <div className="relative z-10 px-8 md:px-16 max-w-[1280px] mx-auto py-12 md:py-16">
         {/* Header */}
         <ScrollReveal className="mb-12 md:mb-16">
-          <h1 className="font-[Outfit] text-4xl md:text-5xl lg:text-6xl font-extrabold mb-8 leading-tight"
-            style={{ color: "var(--text-primary)" }}
+          <h1 className="font-[Outfit] text-4xl md:text-5xl lg:text-6xl font-extrabold mb-8 leading-tight pt-6 md:pt-10"
+            style={{ color: "var(--accent)" }}
           >
-            Projects.
+            Projects<span style={{ color: "var(--text-primary)" }}>.</span>
           </h1>
 
           {/* Filters */}
@@ -165,7 +165,7 @@ export default function ProjectsSection() {
                 style={{
                   borderColor: activeFilter === f ? "var(--accent)" : "var(--border-color)",
                   color: activeFilter === f ? "var(--accent)" : "var(--text-muted)",
-                  backgroundColor: activeFilter === f ? "rgba(46, 91, 255, 0.1)" : "transparent",
+                  backgroundColor: activeFilter === f ? "rgba(30, 86, 205, 0.1)" : "transparent",
                 }}
               >
                 {f}
@@ -184,7 +184,7 @@ export default function ProjectsSection() {
         >
           <AnimatePresence mode="popLayout">
             {filtered.map((project, index) => (
-                <motion.div
+              <motion.div
                 key={project.id}
                 variants={cardVariants}
                 initial={{ opacity: 0, scale: 0.9 }}
@@ -203,7 +203,7 @@ export default function ProjectsSection() {
                   <span className="font-[JetBrains_Mono] text-xs tracking-wider uppercase px-3 py-1.5 rounded"
                     style={{
                       color: "var(--accent)",
-                      backgroundColor: "rgba(46, 91, 255, 0.1)",
+                      backgroundColor: "rgba(30, 86, 205, 0.1)",
                     }}
                   >
                     {project.category}
@@ -241,8 +241,8 @@ export default function ProjectsSection() {
                       className="font-[JetBrains_Mono] text-[13px] px-3 py-1.5 border rounded"
                       style={{
                         color: "var(--accent)",
-                        backgroundColor: "rgba(46, 91, 255, 0.05)",
-                        borderColor: "rgba(46, 91, 255, 0.3)",
+                        backgroundColor: "rgba(30, 86, 205, 0.05)",
+                        borderColor: "rgba(30, 86, 205, 0.3)",
                       }}
                       initial={{ opacity: 0, scale: 0.8 }}
                       animate={{ opacity: 1, scale: 1 }}

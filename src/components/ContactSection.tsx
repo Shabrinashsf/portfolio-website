@@ -47,7 +47,7 @@ export default function ContactSection() {
       <div className="relative z-10 px-8 md:px-16 max-w-4xl mx-auto py-10 lg:py-2 w-full">
         {/* Header */}
         <ScrollReveal className="mb-10 text-center">
-          <h1 className="font-[Outfit] text-4xl md:text-5xl lg:text-6xl font-extrabold mb-5 leading-tight"
+          <h1 className="font-[Outfit] text-4xl md:text-5xl lg:text-6xl font-extrabold mb-5 leading-tight pt-6 md:pt-10"
             style={{ color: "var(--text-primary)" }}
           >
             Let&apos;s{" "}
@@ -58,7 +58,7 @@ export default function ContactSection() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
             >
-              talk.
+              talk<span style={{ color: "var(--text-primary)" }}>.</span>
             </motion.span>
           </h1>
           <p className="font-[Plus_Jakarta_Sans] text-base md:text-lg max-w-xl mx-auto leading-relaxed mb-6"
@@ -79,9 +79,9 @@ export default function ContactSection() {
               </svg>
               <span>Surabaya, Indonesia</span>
             </div>
-            <a 
-              href="https://wa.me/6282352070334" 
-              target="_blank" 
+            <a
+              href="https://wa.me/6282352070334"
+              target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 transition-opacity hover:opacity-70"
             >

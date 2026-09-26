@@ -53,10 +53,10 @@ export default function AboutSection() {
       <div className="relative z-10 px-8 md:px-16 max-w-7xl mx-auto py-12 md:py-16">
         {/* Header */}
         <ScrollReveal className="mb-8">
-          <h1 className="font-[Outfit] text-4xl md:text-5xl lg:text-6xl font-extrabold mb-3 leading-tight"
-            style={{ color: "var(--text-primary)" }}
+          <h1 className="font-[Outfit] text-4xl md:text-5xl lg:text-6xl font-extrabold mb-3 leading-tight pt-6 md:pt-10"
+            style={{ color: "var(--accent)" }}
           >
-            About me.
+            About me<span style={{ color: "var(--text-primary)" }}>.</span>
           </h1>
           <motion.h2
             className="font-[Outfit] text-xl md:text-2xl font-medium tracking-wide border-l-2 pl-5 py-1"
@@ -73,7 +73,7 @@ export default function AboutSection() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
             >
-              passion.
+              passion<span style={{ color: "var(--text-primary)" }}>.</span>
             </motion.span>
           </motion.h2>
         </ScrollReveal>
@@ -83,28 +83,20 @@ export default function AboutSection() {
           <p className="font-[Plus_Jakarta_Sans] text-base md:text-lg leading-relaxed mb-6"
             style={{ color: "var(--text-secondary)" }}
           >
-            A Third-year Informatics Engineering student at ITS with{" "}
+            A Third-year Informatics Engineering student at ITS and a{" "}
+            <span className="font-medium" style={{ color: "var(--accent)" }}>Software Engineer</span> with{" "}
             <span className="font-medium" style={{ color: "var(--accent)" }}>2 years</span> of production experience building{" "}
-            <span className="font-medium" style={{ color: "var(--accent)" }}>Backend Systems</span> using{" "}
-            <span className="font-medium" style={{ color: "var(--accent)" }}>Golang (Gin/Fiber)</span> or{" "}
-            <span className="font-medium" style={{ color: "var(--accent)" }}>PHP (Laravel)</span>, and 1 year in{" "}
-            <span className="font-medium" style={{ color: "var(--accent)" }}>Frontend</span> Development using{" "}
-            <span className="font-medium" style={{ color: "var(--accent)" }}>NextJS</span> or{" "}
-            <span className="font-medium" style={{ color: "var(--accent)" }}>Laravel</span>.{" "}
-            Lead a team of 
-            <span className="font-medium" style={{ color: "var(--accent)" }}> 7+ developers</span> and delivering systems for{" "}
-            <span className="font-medium" style={{ color: "var(--accent)" }}>500,000+</span> total users.{" "}
+            <span className="font-medium" style={{ color: "var(--accent)" }}>Software Products</span>{" "}
           </p>
           <p className="font-[Plus_Jakarta_Sans] text-base md:text-lg leading-relaxed mb-8"
             style={{ color: "var(--text-secondary)" }}
           >
             Besides doing softeng and tech stuff, you can find me rotten in my room playing games. My favorite genre is{" "}
             <span className="font-medium" style={{ color: "var(--accent)" }}>RPG/JRPG</span> or{" "}
-            <span className="font-medium" style={{ color: "var(--accent)" }}>Story</span>, my current all time fav is.{" "}
-            <span className="font-medium" style={{ color: "var(--accent)" }}>OMORI</span> (this website was created using many references from it).{" "}
+            <span className="font-medium" style={{ color: "var(--accent)" }}>Story</span>.{" "}
             <span className="font-medium" style={{ color: "var(--accent)" }}>Coffee</span>{" "}
             is my fuel to start the day, but playing{" "}
-            <span className="font-medium" style={{ color: "var(--accent)" }}>Resident Evil</span> (especially RE4 Remake) or{" "}
+            <span className="font-medium" style={{ color: "var(--accent)" }}>Resident Evil</span> or{" "}
             <span className="font-medium" style={{ color: "var(--accent)" }}>Persona</span>, are my emotional support during the hard days.{" "}
           </p>
         </ScrollReveal>

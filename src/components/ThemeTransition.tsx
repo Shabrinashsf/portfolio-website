@@ -18,8 +18,8 @@ export default function ThemeTransition() {
 
   const message = transitionTarget === "light" ? "Welcome To White Space" : "Welcome To Black Space";
   const imageSrc = transitionTarget === "light" ? "/img/white-space.jpg" : "/img/black-space.jpg";
-  const bgColor = transitionTarget === "light" ? "#f5f5f8" : "#131317";
-  const textColor = transitionTarget === "light" ? "#131317" : "#f5f5f8";
+  const bgColor = transitionTarget === "light" ? "#FDF8F2" : "#131317";
+  const textColor = transitionTarget === "light" ? "#131317" : "#FDF8F2";
 
   return (
     <AnimatePresence>

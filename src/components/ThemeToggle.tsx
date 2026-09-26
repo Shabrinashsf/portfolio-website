@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState } from "react";
 import { useTheme } from "@/context/ThemeContext";
 import Image from "next/image";
 
@@ -10,16 +10,16 @@ function playLightClick() {
   try {
     const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
     if (!AudioCtx) return;
-    
+
     if (!sharedAudioCtx) {
       sharedAudioCtx = new AudioCtx();
     }
     const ctx = sharedAudioCtx;
-    
+
     if (ctx.state === "suspended") {
-      ctx.resume().catch(() => {});
+      ctx.resume().catch(() => { });
     }
-    
+
     // Use original timing
     const now = ctx.currentTime;
 
@@ -58,43 +58,86 @@ function playLightClick() {
   }
 }
 
-export default function ThemeToggle() {
+export default function ThemeToggle({ embedded = false }: { embedded?: boolean }) {
   const { theme, toggleTheme } = useTheme();
+  const [isHovered, setIsHovered] = useState(false);
   const isDark = theme === "dark";
+  const displayedIsDark = isHovered ? !isDark : isDark;
 
   const handleClick = () => {
     playLightClick();
     toggleTheme();
   };
 
+  if (embedded) {
+    return (
+      <button
+        type="button"
+        onClick={handleClick}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        className="relative w-8 h-8 rounded-lg flex items-center justify-center p-0.5 focus:outline-none shrink-0"
+        aria-label="Toggle theme"
+        title={isDark ? "Switch to White Space" : "Switch to Black Space"}
+      >
+        <div className="w-7 h-7 relative rounded-md overflow-hidden shadow-sm pointer-events-none">
+          <Image
+            src="/img/black-space.jpg"
+            alt="Black Space"
+            fill
+            className={`rounded-md object-cover transition-opacity duration-300 ease-in-out ${displayedIsDark ? "opacity-100" : "opacity-0"
+              }`}
+            sizes="28px"
+            priority
+          />
+          <Image
+            src="/img/white-space.jpg"
+            alt="White Space"
+            fill
+            className={`rounded-md object-cover transition-opacity duration-300 ease-in-out ${displayedIsDark ? "opacity-0" : "opacity-100"
+              }`}
+            sizes="28px"
+            priority
+          />
+        </div>
+      </button>
+    );
+  }
+
   return (
-    <motion.button
+    <button
+      type="button"
       onClick={handleClick}
-      whileHover={{ scale: 1.15 }}
-      whileTap={{ scale: 0.9 }}
-      className="relative w-10 h-10 rounded-full flex items-center justify-center border transition-colors duration-300 overflow-hidden focus:outline-none"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className="relative w-10 h-10 rounded-xl flex items-center justify-center border transition-colors duration-300 overflow-hidden focus:outline-none"
       style={{
-        borderColor: isDark ? "#2a2a2e" : "#e2e4e8",
-        backgroundColor: isDark ? "#1b1b1f" : "#ffffff",
+        borderColor: "var(--border-color)",
+        backgroundColor: "var(--bg-card)",
       }}
       aria-label="Toggle theme"
+      title={isDark ? "Switch to White Space" : "Switch to Black Space"}
     >
-      <motion.div
-        key={theme}
-        initial={{ scale: 0, rotate: -90, opacity: 0 }}
-        animate={{ scale: 1, rotate: 0, opacity: 1 }}
-        exit={{ scale: 0, rotate: 90, opacity: 0 }}
-        transition={{ type: "spring", stiffness: 300, damping: 20 }}
-        className="w-7 h-7 relative"
-      >
+      <div className="w-7 h-7 relative rounded-lg overflow-hidden pointer-events-none">
         <Image
-          src={isDark ? "/img/black-space.jpg" : "/img/white-space.jpg"}
-          alt={isDark ? "Black Space" : "White Space"}
+          src="/img/black-space.jpg"
+          alt="Black Space"
           fill
-          className="rounded-full object-cover"
+          className={`rounded-lg object-cover transition-opacity duration-300 ease-in-out ${displayedIsDark ? "opacity-100" : "opacity-0"
+            }`}
           sizes="28px"
+          priority
         />
-      </motion.div>
-    </motion.button>
+        <Image
+          src="/img/white-space.jpg"
+          alt="White Space"
+          fill
+          className={`rounded-lg object-cover transition-opacity duration-300 ease-in-out ${displayedIsDark ? "opacity-0" : "opacity-100"
+            }`}
+          sizes="28px"
+          priority
+        />
+      </div>
+    </button>
   );
 }

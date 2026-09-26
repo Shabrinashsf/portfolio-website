@@ -57,56 +57,15 @@ export default function Home() {
                 initial="hidden"
                 animate="visible"
               >
-                {/* Status Badge */}
-                <motion.div
-                  variants={itemVariants}
-                  className="inline-flex items-center px-3 py-1 mb-6 rounded-full border backdrop-blur-sm"
-                  style={{
-                    borderColor: "var(--border-color)",
-                    backgroundColor: "var(--bg-card)",
-                  }}
-                >
-                  <span className="relative flex h-2 w-2 mr-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75"
-                      style={{ backgroundColor: "var(--accent)" }}
-                    />
-                    <span className="relative inline-flex rounded-full h-2 w-2"
-                      style={{ backgroundColor: "var(--accent)" }}
-                    />
-                  </span>
-                  <span className="font-[Plus_Jakarta_Sans] text-[10px] font-medium uppercase tracking-wider"
-                    style={{ color: "var(--text-muted)" }}
-                  >
-                    Available for work
-                  </span>
-                </motion.div>
-
-                {/* Quote */}
-                <motion.div
-                  variants={itemVariants}
-                  className="mb-4 flex items-center space-x-3"
-                >
-                  <motion.span
-                    className="h-[1px]"
-                    style={{ backgroundColor: "var(--accent)" }}
-                    initial={{ width: 0 }}
-                    animate={{ width: 48 }}
-                    transition={{ duration: 1.2, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                  />
-                  <span className="font-[Plus_Jakarta_Sans] text-xs font-semibold tracking-widest uppercase"
-                    style={{ color: "var(--accent-light)" }}
-                  >
-                    &quot;Fait avec amour.&quot;
-                  </span>
-                </motion.div>
 
                 {/* Title */}
                 <motion.h1
                   variants={itemVariants}
-                  className="font-[Outfit] text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold mb-4 leading-tight"
+                  className="font-[Outfit] text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold mb-4 leading-tight pt-6 md:pt-8"
                   style={{ color: "var(--text-primary)" }}
                 >
-                  Hi, I&apos;m <br className="hidden md:block" />
+                  Hi, I&apos;m{" "}
+                  <br className="block md:hidden" />
                   <motion.span
                     className="italic inline-block"
                     style={{ color: "var(--accent)" }}
@@ -114,7 +73,7 @@ export default function Home() {
                     animate={{ opacity: 1, x: 0, rotate: 0 }}
                     transition={{ duration: 1.0, delay: 0.8, ease: [0.22, 1, 0.36, 1] }}
                   >
-                    Shabrina.
+                    Shabrina<span style={{ color: "var(--text-primary)" }}>.</span>
                   </motion.span>
                 </motion.h1>
 
@@ -133,7 +92,7 @@ export default function Home() {
                     <span className="font-medium" style={{ color: "var(--accent)" }}>
                       Software Architecture
                     </span>{" "}
-                    and 
+                    and
                     {" "}
                     <span className="font-medium" style={{ color: "var(--accent)" }}>
                       System Design
@@ -151,8 +110,8 @@ export default function Home() {
                     className="inline-flex items-center justify-center px-8 py-3 rounded-md font-[Plus_Jakarta_Sans] text-sm font-semibold tracking-wider uppercase transition-all duration-200 hover:-translate-y-1"
                     style={{
                       backgroundColor: "var(--accent)",
-                      color: "#efefff",
-                      boxShadow: "0 0 15px rgba(46,91,255,0.3)",
+                      color: "#FDF8F2",
+                      boxShadow: "0 0 15px rgba(30,86,205,0.3)",
                     }}
                   >
                     Get in Touch
@@ -204,18 +163,18 @@ export default function Home() {
                 <Floating>
                   <div className="relative aspect-square w-56 lg:w-72">
                     <div className="absolute -inset-0.5 rounded-2xl blur-lg opacity-50"
-                      style={{ background: "linear-gradient(to top right, rgba(46,91,255,0.3), rgba(184,195,255,0.3))" }}
+                      style={{ background: "linear-gradient(to top right, rgba(30,86,205,0.3), rgba(168,199,250,0.3))" }}
                     />
                     <div className="absolute -inset-4 border rounded-3xl transform rotate-3"
-                      style={{ borderColor: "#4a4b59" }}
+                      style={{ borderColor: "var(--border-color)" }}
                     />
                     <div className="absolute -inset-4 border rounded-3xl transform -rotate-2"
-                      style={{ borderColor: "#4a4b59" }}
+                      style={{ borderColor: "var(--border-color)" }}
                     />
                     <div className="relative w-full h-full rounded-2xl overflow-hidden border shadow-2xl flex items-center justify-center"
                       style={{
-                        borderColor: "#4a4b59",
-                        backgroundColor: "#1b1b1f",
+                        borderColor: "var(--border-color)",
+                        backgroundColor: "var(--bg-card)",
                       }}
                     >
                       <Image
@@ -237,145 +196,145 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.5, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
             >
-            <StaggerContainer staggerDelay={0.18} className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-12">
-              {/* Card 1: Experience */}
-              <StaggerItem>
-                <motion.div
-                  className="backdrop-blur-md border rounded-xl p-5 group shadow-sm h-full cursor-default glass-card-40 glass-card-hover"
-                  whileHover={{ y: -4 }}
-                  transition={{ type: "spring", stiffness: 180, damping: 28 }}
-                >
-                  <div className="flex items-center justify-between mb-3">
-                    <h3 className="font-[Outfit] text-lg font-semibold tracking-wide"
-                      style={{ color: "var(--text-primary)" }}
-                    >
-                      Experience
-                    </h3>
-                    <svg
-                      className="w-5 h-5 transition-colors group-hover:text-[var(--accent)]"
-                      style={{ color: "var(--text-muted)" }}
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                      />
-                    </svg>
-                  </div>
-                  <p className="font-[Outfit] text-2xl font-semibold mb-1"
-                    style={{ color: "var(--text-primary)" }}
+              <StaggerContainer staggerDelay={0.18} className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-12">
+                {/* Card 1: Experience */}
+                <StaggerItem>
+                  <motion.div
+                    className="backdrop-blur-md border rounded-xl p-5 group shadow-sm h-full cursor-default glass-card-40 glass-card-hover"
+                    whileHover={{ y: -4 }}
+                    transition={{ type: "spring", stiffness: 180, damping: 28 }}
                   >
-                    10+ Projects
-                  </p>
-                  <p className="font-[Plus_Jakarta_Sans] text-sm"
-                    style={{ color: "var(--text-secondary)" }}
-                  >
-                    Successfully delivered and deployed.
-                  </p>
-                </motion.div>
-              </StaggerItem>
-
-              {/* Card 2: Main Stack */}
-              <StaggerItem>
-                <motion.div
-                  className="backdrop-blur-md border rounded-xl p-5 group shadow-sm h-full cursor-default glass-card-40 glass-card-hover"
-                  whileHover={{ y: -4 }}
-                  transition={{ type: "spring", stiffness: 180, damping: 28 }}
-                >
-                  <div className="flex items-center justify-between mb-3">
-                    <h3 className="font-[Outfit] text-lg font-semibold tracking-wide"
-                      style={{ color: "var(--text-primary)" }}
-                    >
-                      Main Stack
-                    </h3>
-                    <svg
-                      className="w-5 h-5 transition-colors group-hover:text-[var(--accent)]"
-                      style={{ color: "var(--text-muted)" }}
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"
-                      />
-                    </svg>
-                  </div>
-                  <div className="flex flex-wrap gap-2 mt-2">
-                    {techStack.map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-2.5 py-1 border font-[Plus_Jakarta_Sans] text-xs font-medium rounded-md shadow-sm"
-                        style={{
-                          backgroundColor: "var(--bg-page)",
-                          borderColor: "var(--border-color)",
-                          color: "var(--text-primary)",
-                        }}
+                    <div className="flex items-center justify-between mb-3">
+                      <h3 className="font-[Outfit] text-lg font-semibold tracking-wide"
+                        style={{ color: "var(--text-primary)" }}
                       >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </motion.div>
-              </StaggerItem>
-
-              {/* Card 3: Current Status */}
-              <StaggerItem>
-                <motion.div
-                  className="backdrop-blur-md border rounded-xl p-5 group shadow-sm h-full flex flex-col justify-between cursor-default glass-card-40 glass-card-hover"
-                  whileHover={{ y: -4 }}
-                  transition={{ type: "spring", stiffness: 180, damping: 28 }}
-                >
-                  <div className="flex items-center justify-between mb-3">
-                    <h3 className="font-[Outfit] text-lg font-semibold tracking-wide"
+                        Experience
+                      </h3>
+                      <svg
+                        className="w-5 h-5 transition-colors group-hover:text-[var(--accent)]"
+                        style={{ color: "var(--text-muted)" }}
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                        />
+                      </svg>
+                    </div>
+                    <p className="font-[Outfit] text-2xl font-semibold mb-1"
                       style={{ color: "var(--text-primary)" }}
                     >
-                      Current Status
-                    </h3>
-                    <svg
-                      className="w-5 h-5 transition-colors group-hover:text-[var(--accent)]"
-                      style={{ color: "var(--text-muted)" }}
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                      />
-                    </svg>
-                  </div>
-                  <div className="flex items-center space-x-3 border p-3 rounded-lg"
-                    style={{
-                      backgroundColor: "var(--bg-page)",
-                      borderColor: "var(--border-color)",
-                    }}
-                  >
-                    <span className="relative flex h-3 w-3">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75"
-                        style={{ backgroundColor: "var(--accent)" }}
-                      />
-                      <span className="relative inline-flex rounded-full h-3 w-3"
-                        style={{ backgroundColor: "var(--accent)" }}
-                      />
-                    </span>
-                    <p className="font-[Plus_Jakarta_Sans] text-sm"
-                      style={{ color: "var(--text-primary)" }}
-                    >
-                      Open to Collaborations
+                      10+ Projects
                     </p>
-                  </div>
-                </motion.div>
-              </StaggerItem>
-            </StaggerContainer>
+                    <p className="font-[Plus_Jakarta_Sans] text-sm"
+                      style={{ color: "var(--text-secondary)" }}
+                    >
+                      Successfully delivered and deployed.
+                    </p>
+                  </motion.div>
+                </StaggerItem>
+
+                {/* Card 2: Main Stack */}
+                <StaggerItem>
+                  <motion.div
+                    className="backdrop-blur-md border rounded-xl p-5 group shadow-sm h-full cursor-default glass-card-40 glass-card-hover"
+                    whileHover={{ y: -4 }}
+                    transition={{ type: "spring", stiffness: 180, damping: 28 }}
+                  >
+                    <div className="flex items-center justify-between mb-3">
+                      <h3 className="font-[Outfit] text-lg font-semibold tracking-wide"
+                        style={{ color: "var(--text-primary)" }}
+                      >
+                        Main Stack
+                      </h3>
+                      <svg
+                        className="w-5 h-5 transition-colors group-hover:text-[var(--accent)]"
+                        style={{ color: "var(--text-muted)" }}
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"
+                        />
+                      </svg>
+                    </div>
+                    <div className="flex flex-wrap gap-2 mt-2">
+                      {techStack.map((tag) => (
+                        <span
+                          key={tag}
+                          className="px-2.5 py-1 border font-[Plus_Jakarta_Sans] text-xs font-medium rounded-md shadow-sm"
+                          style={{
+                            backgroundColor: "var(--bg-page)",
+                            borderColor: "var(--border-color)",
+                            color: "var(--text-primary)",
+                          }}
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </motion.div>
+                </StaggerItem>
+
+                {/* Card 3: Current Status */}
+                <StaggerItem>
+                  <motion.div
+                    className="backdrop-blur-md border rounded-xl p-5 group shadow-sm h-full flex flex-col justify-between cursor-default glass-card-40 glass-card-hover"
+                    whileHover={{ y: -4 }}
+                    transition={{ type: "spring", stiffness: 180, damping: 28 }}
+                  >
+                    <div className="flex items-center justify-between mb-3">
+                      <h3 className="font-[Outfit] text-lg font-semibold tracking-wide"
+                        style={{ color: "var(--text-primary)" }}
+                      >
+                        Current Status
+                      </h3>
+                      <svg
+                        className="w-5 h-5 transition-colors group-hover:text-[var(--accent)]"
+                        style={{ color: "var(--text-muted)" }}
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
+                      </svg>
+                    </div>
+                    <div className="flex items-center space-x-3 border p-3 rounded-lg"
+                      style={{
+                        backgroundColor: "var(--bg-page)",
+                        borderColor: "var(--border-color)",
+                      }}
+                    >
+                      <span className="relative flex h-3 w-3">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75"
+                          style={{ backgroundColor: "var(--accent)" }}
+                        />
+                        <span className="relative inline-flex rounded-full h-3 w-3"
+                          style={{ backgroundColor: "var(--accent)" }}
+                        />
+                      </span>
+                      <p className="font-[Plus_Jakarta_Sans] text-sm"
+                        style={{ color: "var(--text-primary)" }}
+                      >
+                        Open to Collaborations
+                      </p>
+                    </div>
+                  </motion.div>
+                </StaggerItem>
+              </StaggerContainer>
             </motion.div>
           </section>
         </div>

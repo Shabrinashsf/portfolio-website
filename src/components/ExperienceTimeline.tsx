@@ -16,7 +16,7 @@ type ExperienceItem = {
 };
 
 const experiences: ExperienceItem[] = [
-    {
+  {
     id: 1,
     type: "work",
     org: "Direktorat Pengembangan dan Sistem Informasi ITS",
@@ -26,7 +26,7 @@ const experiences: ExperienceItem[] = [
       "",
     tags: ["PHP", "Laravel", "MySQL"],
   },
-    {
+  {
     id: 2,
     type: "work",
     org: "Dikmenum Dinas Pendidikan Jawa Timur",
@@ -145,10 +145,10 @@ export default function ExperienceTimeline() {
       <div className="relative z-10 px-8 md:px-16 max-w-7xl mx-auto py-12 md:py-16">
         {/* Header */}
         <ScrollReveal className="mb-12 md:mb-16">
-          <h1 className="font-[Outfit] text-4xl md:text-5xl lg:text-6xl font-extrabold mb-5 leading-tight"
-            style={{ color: "var(--text-primary)" }}
+          <h1 className="font-[Outfit] text-4xl md:text-5xl lg:text-6xl font-extrabold mb-5 leading-tight pt-6 md:pt-10"
+            style={{ color: "var(--accent)" }}
           >
-            Experience.
+            Experience<span style={{ color: "var(--text-primary)" }}>.</span>
           </h1>
           <p className="font-[Plus_Jakarta_Sans] text-base md:text-lg max-w-2xl leading-relaxed"
             style={{ color: "var(--text-secondary)" }}
@@ -259,7 +259,7 @@ export default function ExperienceTimeline() {
                           key={tag}
                           className="inline-flex items-center px-3 py-1 rounded font-[JetBrains_Mono] text-xs tracking-wider uppercase"
                           style={{
-                            backgroundColor: "rgba(46, 91, 255, 0.1)",
+                            backgroundColor: "rgba(30, 86, 205, 0.1)",
                             color: "var(--accent)",
                           }}
                           initial={{ opacity: 0, scale: 0.8 }}

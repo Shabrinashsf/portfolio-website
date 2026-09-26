@@ -173,7 +173,7 @@ export function StaggerItem({
   className?: string;
 }) {
   const itemVariants: Variants = {
-      hidden: { opacity: 0, y: 15 },
+    hidden: { opacity: 0, y: 15 },
     visible: {
       opacity: 1,
       y: 0,
@@ -314,9 +314,9 @@ export function GlowPulse({
     <motion.div
       animate={{
         boxShadow: [
-          "0 0 15px rgba(46, 91, 255, 0.3)",
-          "0 0 30px rgba(46, 91, 255, 0.5)",
-          "0 0 15px rgba(46, 91, 255, 0.3)",
+          "0 0 15px rgba(30, 86, 205, 0.3)",
+          "0 0 30px rgba(30, 86, 205, 0.5)",
+          "0 0 15px rgba(30, 86, 205, 0.3)",
         ],
       }}
       transition={{

@@ -8,13 +8,13 @@ const darkVars = `
     --bg-card-hover: #1f1f23;
     --bg-nav: rgba(19, 19, 23, 0.85);
     --bg-inner: #131317;
-    --text-primary: #e4e1e7;
+    --text-primary: #FDF8F2;
     --text-secondary: #c4c5d9;
     --text-muted: #8e90a2;
     --border-color: #2a2a2e;
-    --grid-color: rgba(255, 255, 255, 0.07);
-    --accent: #2e5bff;
-    --accent-light: #b8c3ff;
+    --grid-color: rgba(253, 248, 242, 0.07);
+    --accent: #1E56CD;
+    --accent-light: #a8c7fa;
   }
 `;
 
@@ -44,7 +44,7 @@ export default function Document() {
                   }
                   document.documentElement.classList.remove('light', 'dark');
                   document.documentElement.classList.add(theme);
-                  document.documentElement.style.backgroundColor = theme === 'dark' ? '#131317' : '#f5f5f8';
+                  document.documentElement.style.backgroundColor = theme === 'dark' ? '#131317' : '#FDF8F2';
                 } catch (e) {}
               })();
             `,
