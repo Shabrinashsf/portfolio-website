@@ -48,7 +48,7 @@ export default function Home() {
         style={{ backgroundColor: "var(--bg-page)", color: "var(--text-primary)" }}
       >
         <GridBackground />
-        <div className="flex flex-col justify-center px-8 md:px-16 max-w-7xl mx-auto w-full relative z-10 py-8 lg:py-0 min-h-[calc(100vh-4rem)]">
+        <div className="flex flex-col justify-center px-8 md:px-16 max-w-7xl mx-auto w-full relative z-10 py-8 lg:py-0 min-h-[calc(100vh-4rem)] lg:h-[calc(100vh-4rem)]">
           <section className="w-full my-auto">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
               {/* Left Side: Typography and Bio */}

@@ -233,18 +233,87 @@ function playGlassShatterSound() {
   }
 }
 
+// Reusable singleton AudioContext to prevent browser AudioContext limit errors & GC pauses
+let sharedAudioCtx: AudioContext | null = null;
+function getSharedAudioCtx(): AudioContext | null {
+  if (typeof window === "undefined") return null;
+  try {
+    if (!sharedAudioCtx) {
+      const AudioCtx =
+        window.AudioContext ||
+        (window as unknown as { webkitAudioContext: typeof AudioContext })
+          .webkitAudioContext;
+      if (AudioCtx) {
+        sharedAudioCtx = new AudioCtx();
+      }
+    }
+    if (sharedAudioCtx && sharedAudioCtx.state === "suspended") {
+      sharedAudioCtx.resume();
+    }
+    return sharedAudioCtx;
+  } catch {
+    return null;
+  }
+}
+
+// Reusable cached Audio elements (zero I/O on click)
+let cachedSlideAudio: HTMLAudioElement | null = null;
+let cachedCardAudio: HTMLAudioElement | null = null;
+let cachedSummonAudio: HTMLAudioElement | null = null;
+let cachedSelectAudio: HTMLAudioElement | null = null;
+
+function getSlideAudio(): HTMLAudioElement | null {
+  if (typeof window === "undefined") return null;
+  if (!cachedSlideAudio) {
+    cachedSlideAudio = new Audio("/audio/slide.mp3");
+    cachedSlideAudio.volume = 0.95;
+    cachedSlideAudio.preload = "auto";
+  }
+  return cachedSlideAudio;
+}
+
+function getCardAudio(): HTMLAudioElement | null {
+  if (typeof window === "undefined") return null;
+  if (!cachedCardAudio) {
+    cachedCardAudio = new Audio("/audio/card.mp3");
+    cachedCardAudio.volume = 0.95;
+    cachedCardAudio.preload = "auto";
+  }
+  return cachedCardAudio;
+}
+
+function getSummonAudio(): HTMLAudioElement | null {
+  if (typeof window === "undefined") return null;
+  if (!cachedSummonAudio) {
+    cachedSummonAudio = new Audio("/audio/summon-persona.mp3");
+    cachedSummonAudio.volume = 0.95;
+    cachedSummonAudio.preload = "auto";
+  }
+  return cachedSummonAudio;
+}
+
+function getSelectAudio(): HTMLAudioElement | null {
+  if (typeof window === "undefined") return null;
+  if (!cachedSelectAudio) {
+    cachedSelectAudio = new Audio("/audio/select.mp3");
+    cachedSelectAudio.volume = 0.85;
+    cachedSelectAudio.preload = "auto";
+  }
+  return cachedSelectAudio;
+}
+
 // Play side cards slide sound from public/audio/slide.mp3
 function playSlideAudio() {
-  if (typeof window === "undefined") return;
+  const audio = getSlideAudio();
+  if (!audio) {
+    playCardSelectSound();
+    return;
+  }
   try {
-    const audio = new Audio("/audio/slide.mp3");
-    audio.volume = 0.95;
+    audio.currentTime = 0;
     const playPromise = audio.play();
     if (playPromise !== undefined) {
-      playPromise.catch(() => {
-        // Fallback gracefully
-        playCardSelectSound();
-      });
+      playPromise.catch(() => playCardSelectSound());
     }
   } catch {
     playCardSelectSound();
@@ -253,16 +322,16 @@ function playSlideAudio() {
 
 // Play card spin sound from public/audio/card.mp3
 function playCardSpinAudio() {
-  if (typeof window === "undefined") return;
+  const audio = getCardAudio();
+  if (!audio) {
+    playMysticSpinSound();
+    return;
+  }
   try {
-    const audio = new Audio("/audio/card.mp3");
-    audio.volume = 0.95;
+    audio.currentTime = 0;
     const playPromise = audio.play();
     if (playPromise !== undefined) {
-      playPromise.catch(() => {
-        // Fallback to synthesized spin sound if audio blocked
-        playMysticSpinSound();
-      });
+      playPromise.catch(() => playMysticSpinSound());
     }
   } catch {
     playMysticSpinSound();
@@ -271,16 +340,16 @@ function playCardSpinAudio() {
 
 // Play Persona 3 summon persona sound from public/audio/summon-persona.mp3
 function playSummonPersonaSfx() {
-  if (typeof window === "undefined") return;
+  const audio = getSummonAudio();
+  if (!audio) {
+    playGlassShatterSound();
+    return;
+  }
   try {
-    const audio = new Audio("/audio/summon-persona.mp3");
-    audio.volume = 0.95;
+    audio.currentTime = 0;
     const playPromise = audio.play();
     if (playPromise !== undefined) {
-      playPromise.catch(() => {
-        // Fallback to synthesized audio if blocked
-        playGlassShatterSound();
-      });
+      playPromise.catch(() => playGlassShatterSound());
     }
   } catch {
     playGlassShatterSound();
@@ -289,14 +358,9 @@ function playSummonPersonaSfx() {
 
 // Synthesized Web Audio high-speed 5-spin vortex whoosh across 1.0s
 function playMysticSpinSound() {
-  if (typeof window === "undefined") return;
+  const ctx = getSharedAudioCtx();
+  if (!ctx) return;
   try {
-    const AudioCtx =
-      window.AudioContext ||
-      (window as unknown as { webkitAudioContext: typeof AudioContext })
-        .webkitAudioContext;
-    if (!AudioCtx) return;
-    const ctx = new AudioCtx();
     const now = ctx.currentTime;
 
     // 5Hz Flutter / Tremolo LFO matching the 5 rotations in 1 second
@@ -335,32 +399,26 @@ function playMysticSpinSound() {
 
 // Crisp, tactile UI card select sound (supports public/audio/select.mp3 or synthesized crisp click)
 function playCardSelectSound() {
-  if (typeof window === "undefined") return;
-  try {
-    const audio = new Audio("/audio/select.mp3");
-    audio.volume = 0.85;
-    const playPromise = audio.play();
-    if (playPromise !== undefined) {
-      playPromise.catch(() => {
-        playCrispSelectSynth();
-      });
-      return;
+  const audio = getSelectAudio();
+  if (audio) {
+    try {
+      audio.currentTime = 0;
+      const playPromise = audio.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => playCrispSelectSynth());
+        return;
+      }
+    } catch {
+      // Fallback to synth
     }
-  } catch {
-    // Fallback to synth
   }
   playCrispSelectSynth();
 }
 
 function playCrispSelectSynth() {
-  if (typeof window === "undefined") return;
+  const ctx = getSharedAudioCtx();
+  if (!ctx) return;
   try {
-    const AudioCtx =
-      window.AudioContext ||
-      (window as unknown as { webkitAudioContext: typeof AudioContext })
-        .webkitAudioContext;
-    if (!AudioCtx) return;
-    const ctx = new AudioCtx();
     const now = ctx.currentTime;
 
     // 1. Snappy mechanical click / snap transient (tactile click)
@@ -393,8 +451,8 @@ function playCrispSelectSynth() {
   }
 }
 
-// Elegant Dark Feminine & Mysterious Arcana Card (#00072d)
-function PersonaCardVisual({
+// Elegant Dark Feminine & Mysterious Arcana Card (#00072d) - Memoized for 60fps rendering
+const PersonaCardVisual = React.memo(function PersonaCardVisual({
   card,
   isCenter = false,
   isHovered = false,
@@ -416,12 +474,13 @@ function PersonaCardVisual({
 
   return (
     <div
-      className="relative w-full h-full rounded-xl sm:rounded-2xl select-none flex flex-col items-center justify-between p-3.5 sm:p-5 md:p-6 text-center transition-all duration-500 overflow-hidden"
+      className="relative w-full h-full rounded-xl sm:rounded-2xl select-none flex flex-col items-center justify-between p-3.5 sm:p-5 md:p-6 text-center transition-shadow duration-300 ease-out overflow-hidden"
       style={{
         backgroundColor: "#00072d",
         backfaceVisibility: "hidden",
         WebkitBackfaceVisibility: "hidden",
         transformStyle: "preserve-3d",
+        transform: "translateZ(0)",
         boxShadow: isProminent
           ? "0 35px 75px -15px rgba(0, 0, 0, 0.95), 0 15px 35px rgba(0, 0, 0, 0.8), 0 0 35px rgba(168, 199, 250, 0.3), inset 0 1px 2px 0 rgba(255, 255, 255, 0.35)"
           : "0 14px 35px -8px rgba(0, 0, 0, 0.65), 0 2px 8px rgba(0, 0, 0, 0.4)",
@@ -429,7 +488,7 @@ function PersonaCardVisual({
     >
       {/* Overhead Glossy Lighting Reflection (Smooth fade-in on hover or when prominent) */}
       <div
-        className={`absolute inset-0 pointer-events-none transition-all duration-500 ease-out ${showActiveGlow ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2"
+        className={`absolute inset-0 pointer-events-none transition-opacity duration-300 ease-out ${showActiveGlow ? "opacity-100" : "opacity-0"
           }`}
         style={{
           background:
@@ -439,7 +498,7 @@ function PersonaCardVisual({
 
       {/* Diagonal Glass Sheen Sweep */}
       <div
-        className={`absolute inset-0 pointer-events-none transition-all duration-700 ease-out ${showActiveGlow ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4"
+        className={`absolute inset-0 pointer-events-none transition-opacity duration-300 ease-out ${showActiveGlow ? "opacity-100" : "opacity-0"
           }`}
         style={{
           background:
@@ -449,11 +508,11 @@ function PersonaCardVisual({
 
       {/* Top Edge Specular Highlight Rim */}
       <div
-        className={`absolute top-0 inset-x-0 h-[1.5px] bg-gradient-to-r from-transparent via-white/70 to-transparent pointer-events-none transition-opacity duration-500 ${showActiveGlow ? "opacity-100" : "opacity-0"
+        className={`absolute top-0 inset-x-0 h-[1.5px] bg-gradient-to-r from-transparent via-white/70 to-transparent pointer-events-none transition-opacity duration-300 ease-out ${showActiveGlow ? "opacity-100" : "opacity-0"
           }`}
       />
 
-      {/* Center: Arcana Image in Elegant Neutral Grey */}
+      {/* Center: Arcana Image in Hardware-Accelerated White / Opacity */}
       <div className="relative z-10 flex-1 flex items-center justify-center w-full my-auto py-1">
         <div className="relative w-[48%] aspect-square max-w-[128px] max-h-[128px] flex items-center justify-center">
           <Image
@@ -461,13 +520,10 @@ function PersonaCardVisual({
             alt={card.name}
             width={128}
             height={128}
-            className="w-full h-full object-contain select-none pointer-events-none transition-all duration-500"
+            className="w-full h-full object-contain select-none pointer-events-none transition-opacity duration-300 ease-out"
             style={{
-              filter: isProminent
-                ? "brightness(0) invert(0.95)"
-                : isHovered
-                  ? "brightness(0) invert(0.85)"
-                  : "brightness(0) invert(0.65)",
+              filter: "brightness(0) invert(1)",
+              opacity: isProminent ? 0.95 : isHovered ? 0.88 : 0.65,
               transform: isProminent ? "scale(1.12)" : "scale(1)",
               backfaceVisibility: "hidden",
               WebkitBackfaceVisibility: "hidden",
@@ -492,7 +548,7 @@ function PersonaCardVisual({
       </div>
     </div>
   );
-}
+});
 
 export default function ArcanaSection() {
   // Slots: 0 (Left), 1 (Center), 2 (Right)
@@ -520,6 +576,7 @@ export default function ArcanaSection() {
 
   // Track viewport width and screen size for responsive card calculations
   const [viewportWidth, setViewportWidth] = useState<number>(1200);
+  const [viewportHeight, setViewportHeight] = useState<number>(900);
   const [screenSize, setScreenSize] = useState<"mobile" | "tablet" | "desktop">("desktop");
   const [mounted, setMounted] = useState(false);
 
@@ -527,7 +584,9 @@ export default function ArcanaSection() {
     setMounted(true);
     const handleResize = () => {
       const w = window.innerWidth;
+      const h = window.innerHeight;
       setViewportWidth(w);
+      setViewportHeight(h);
       if (w < 640) {
         setScreenSize("mobile");
       } else if (w < 1024) {
@@ -579,33 +638,34 @@ export default function ArcanaSection() {
     // Default desktop values for initial SSR hydration consistency
     if (!mounted) {
       return {
-        width: 265,
-        height: 375,
-        xOffset: 245,
-        yOffset: 16,
-        rot: 10,
+        width: 255,
+        height: 361,
+        xOffset: 235,
+        yOffset: 14,
+        rot: 9.5,
         baseScale: 0.96,
         centerScale: 1.0,
-        hoverLift: 52,
-        arenaHeight: 480,
+        hoverLift: 46,
+        arenaHeight: 435,
       };
     }
 
     if (viewportWidth >= 1024) {
-      // Desktop
-      const width = 265;
-      const height = Math.round(width * (375 / 265)); // 375
-      const hoverLift = 52;
+      // Desktop: Adaptive card proportions to guarantee 100% full-screen fit without overflow
+      const isCompactHeight = viewportHeight > 0 && viewportHeight < 840;
+      const width = isCompactHeight ? 235 : 255;
+      const height = Math.round(width * (375 / 265)); // 333 or 361
+      const hoverLift = isCompactHeight ? 38 : 46;
       return {
         width,
         height,
-        xOffset: 245,
-        yOffset: 16,
-        rot: 10,
+        xOffset: isCompactHeight ? 220 : 235,
+        yOffset: 14,
+        rot: 9.5,
         baseScale: 0.96,
         centerScale: 1.0,
         hoverLift,
-        arenaHeight: Math.max(480, height + hoverLift + 45),
+        arenaHeight: Math.max(isCompactHeight ? 390 : 435, height + hoverLift + 20),
       };
     } else if (viewportWidth >= 640) {
       // Tablet (640px - 1023px): proportional scaling
@@ -695,22 +755,10 @@ export default function ArcanaSection() {
     playCardSelectSound();
     setPhase("sliding");
 
-    // Preload audios to guarantee zero latency on animation triggers
-    try {
-      const preloadSlide = new Audio("/audio/slide.mp3");
-      preloadSlide.preload = "auto";
-      preloadSlide.load();
-
-      const preloadCard = new Audio("/audio/card.mp3");
-      preloadCard.preload = "auto";
-      preloadCard.load();
-
-      const preloadAudio = new Audio("/audio/summon-persona.mp3");
-      preloadAudio.preload = "auto";
-      preloadAudio.load();
-    } catch {
-      // Ignore
-    }
+    // Preload audios through cached getters (instant zero I/O)
+    getSlideAudio();
+    getCardAudio();
+    getSummonAudio();
 
     if (currentSlot !== 1) {
       setCardSlots((prev) => ({
@@ -766,56 +814,51 @@ export default function ArcanaSection() {
   return (
     <section
       id="shab-arcana"
-      className="w-full py-16 md:py-24 relative overflow-hidden flex flex-col items-center justify-center scroll-mt-20"
+      className="w-full relative overflow-hidden flex flex-col items-center justify-center lg:h-[calc(100vh-4rem-3.5rem)] lg:min-h-[calc(100vh-4rem-3.5rem)] py-8 lg:py-0 scroll-mt-16"
       style={{
         backgroundColor: "var(--bg-page)",
         color: "var(--text-primary)",
       }}
     >
-      {/* Background Ambience & Persona 3 Blue Glow */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+      {/* Grid Background Pattern */}
+      <div
+        className="absolute inset-0 bg-grid-pattern pointer-events-none"
+        style={{ zIndex: 0, opacity: 0.6 }}
+      />
+
+      <div className="container mx-auto px-4 max-w-6xl relative z-10 flex flex-col items-center text-center my-auto">
+        {/* Section Heading & Subtitle (Raised UP) */}
+        <div className="flex flex-col items-center text-center lg:-translate-y-5">
+          <motion.h2
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="font-[Outfit] text-3xl md:text-5xl font-extrabold tracking-tight mb-2 sm:mb-3"
+            style={{
+              color: "var(--accent)",
+              textShadow:
+                "0 0 20px rgba(30, 86, 205, 0.5), 0 0 40px rgba(168, 199, 250, 0.3)",
+            }}
+          >
+            Pick Major Arcana
+          </motion.h2>
+
+          <motion.p
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="font-[Plus_Jakarta_Sans] text-sm md:text-base max-w-xl mb-12 sm:mb-16 lg:mb-20 text-balance leading-relaxed"
+            style={{ color: "var(--text-secondary)" }}
+          >
+            What I think I&apos;m good at
+          </motion.p>
+        </div>
+
+        {/* Fan Deck Arena (Lowered DOWN) */}
         <div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[760px] h-[540px] rounded-full blur-[140px] opacity-35"
-          style={{
-            background:
-              "radial-gradient(circle, rgba(99, 102, 241, 0.3) 0%, rgba(0, 7, 45, 0.85) 45%, transparent 75%)",
-          }}
-        />
-        {/* Subtle grid accent */}
-        <div className="absolute inset-0 bg-grid-pattern opacity-30" />
-      </div>
-
-      <div className="container mx-auto px-4 max-w-6xl relative z-10 flex flex-col items-center text-center">
-        {/* Section Heading */}
-        <motion.h2
-          initial={{ opacity: 0, y: 15 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="font-[Outfit] text-3xl md:text-5xl font-extrabold tracking-tight mb-3"
-          style={{
-            color: "var(--accent)",
-            textShadow:
-              "0 0 20px rgba(30, 86, 205, 0.5), 0 0 40px rgba(168, 199, 250, 0.3)",
-          }}
-        >
-          Pick Major Arcana
-        </motion.h2>
-
-        <motion.p
-          initial={{ opacity: 0, y: 15 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="font-[Plus_Jakarta_Sans] text-sm md:text-base max-w-xl mb-12 text-balance leading-relaxed"
-          style={{ color: "var(--text-secondary)" }}
-        >
-          What I think I&apos;m good at
-        </motion.p>
-
-        {/* Fan Deck Arena */}
-        <div
-          className="relative w-full max-w-5xl flex items-center justify-center transition-[height] duration-300"
+          className="relative w-full max-w-5xl flex items-center justify-center transition-[height,transform] duration-300 lg:translate-y-6"
           style={{ height: cardConfig.arenaHeight }}
         >
           {/* Deck Cards Container */}
@@ -847,8 +890,9 @@ export default function ArcanaSection() {
 
               let transitionProps: Transition = {
                 type: "spring",
-                stiffness: 220,
-                damping: 24,
+                stiffness: 280,
+                damping: 26,
+                mass: 0.7,
               };
 
               if (phase === "sliding") {
@@ -967,6 +1011,7 @@ export default function ArcanaSection() {
                     width: cardConfig.width,
                     height: cardConfig.height,
                     transformStyle: "preserve-3d",
+                    transform: "translateZ(0)",
                     visibility:
                       phase === "shattering" || phase === "revealed"
                         ? "hidden"
@@ -1095,10 +1140,11 @@ export default function ArcanaSection() {
                 {SHARDS.map((shard, idx) => (
                   <motion.div
                     key={idx}
-                    className="absolute inset-0 overflow-hidden rounded-xl sm:rounded-2xl"
+                    className="absolute inset-0 overflow-hidden rounded-xl sm:rounded-2xl will-change-transform"
                     style={{
                       clipPath: shard.clip,
                       WebkitClipPath: shard.clip,
+                      transform: "translateZ(0)",
                     }}
                     initial={{
                       x: 0,
@@ -1165,16 +1211,6 @@ export default function ArcanaSection() {
                 onWheel={(e) => e.stopPropagation()}
                 onTouchMove={(e) => e.stopPropagation()}
               >
-                {/* Background Ambience & Persona Subtle Glow */}
-                <div className="absolute inset-0 pointer-events-none overflow-hidden">
-                  <div
-                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] rounded-full blur-[160px] opacity-25"
-                    style={{
-                      background: `radial-gradient(circle, ${selectedCard.primaryColor} 0%, rgba(0, 7, 45, 0.85) 50%, transparent 75%)`,
-                    }}
-                  />
-                </div>
-
                 {/* Top Right Close (X) Icon Button */}
                 <button
                   onClick={handleReset}
