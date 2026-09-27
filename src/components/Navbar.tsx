@@ -132,6 +132,10 @@ export default function Navbar() {
   }, [activeHref]);
 
   useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [router.asPath]);
+
+  useEffect(() => {
     if (router.pathname !== "/") {
       activeHrefRef.current = router.pathname;
       setActiveHref(router.pathname);
@@ -196,21 +200,24 @@ export default function Navbar() {
         e.preventDefault();
         const el = document.getElementById("work");
         if (el) {
-          const y = el.getBoundingClientRect().top + window.pageYOffset - 64;
-          window.scrollTo({ top: y, behavior: "smooth" });
-          window.history.pushState(null, "", "/#work");
+          el.scrollIntoView({ behavior: "smooth", block: "start" });
         }
+        setTimeout(() => {
+          window.history.replaceState(null, "", "/#work");
+        }, 800);
       }
       activeHrefRef.current = "/#work";
       setActiveHref("/#work");
       updatePill("/#work");
     } else if (href === "/") {
       if (router.pathname === "/") {
-        if (window.location.hash) {
-          e.preventDefault();
-          window.scrollTo({ top: 0, behavior: "smooth" });
-          window.history.pushState(null, "", "/");
-        }
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        setTimeout(() => {
+          if (window.location.hash) {
+            window.history.replaceState(null, "", window.location.pathname);
+          }
+        }, 800);
       }
       activeHrefRef.current = "/";
       setActiveHref("/");
@@ -244,12 +251,10 @@ export default function Navbar() {
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-        className="fixed top-0 w-full z-50 transition-[background-color,border-color,box-shadow] duration-300"
+        className="fixed top-0 w-full z-50 transition-[background-color,border-color,box-shadow] duration-200"
         style={{
-          backgroundColor: isScrolled ? "var(--bg-page)" : "transparent",
-          backdropFilter: isScrolled ? "none" : "none",
-          WebkitBackdropFilter: isScrolled ? "none" : "none",
-          boxShadow: isScrolled ? "0 4px 20px rgba(0, 0, 0, 0.06)" : "none",
+          backgroundColor: isScrolled || mobileMenuOpen ? "var(--bg-page)" : "transparent",
+          boxShadow: isScrolled || mobileMenuOpen ? "0 4px 20px rgba(0, 0, 0, 0.08)" : "none",
         }}
       >
         <div className="flex justify-between items-center px-6 md:px-12 lg:px-16 py-3 max-w-7xl mx-auto">
@@ -410,47 +415,76 @@ export default function Navbar() {
         <AnimatePresence>
           {mobileMenuOpen && (
             <motion.div
-              initial={{ opacity: 0, height: 0 }}
+              initial={{ opacity: 1, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3 }}
-              className="md:hidden px-6 pb-4 overflow-hidden"
+              transition={{ duration: 0.18 }}
+              className="md:hidden px-6 pb-4 overflow-hidden shadow-2xl"
               style={{
-                backgroundColor: isScrolled ? "var(--bg-page)" : "var(--bg-nav)",
+                backgroundColor: "var(--bg-page)",
                 borderTop: "1px solid var(--border-color)",
+                borderBottom: "1px solid var(--border-color)",
+                opacity: 1,
               }}
             >
-              {navLinks.map((link, index) => {
+              {navLinks.map((link) => {
                 const isActive = activeHref === link.href;
                 const Icon = link.icon;
                 return (
-                  <motion.div
-                    key={link.href}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.08 * index }}
-                  >
+                  <div key={link.href} className="opacity-100">
                     <Link
                       href={link.href}
                       onClick={(e) => {
-                        setMobileMenuOpen(false);
-                        if (link.href === "/#work" && router.pathname === "/") {
-                          e.preventDefault();
-                          const el = document.getElementById("work");
-                          if (el) {
-                            const y = el.getBoundingClientRect().top + window.pageYOffset - 64;
-                            window.scrollTo({ top: y, behavior: "smooth" });
-                            window.history.pushState(null, "", "/#work");
-                          }
-                          setActiveHref("/#work");
-                        } else if (link.href === "/" && router.pathname === "/") {
-                          if (window.location.hash) {
+                        if (link.href === "/#work") {
+                          setMobileMenuOpen(false);
+                          if (router.pathname === "/") {
                             e.preventDefault();
-                            window.scrollTo({ top: 0, behavior: "smooth" });
-                            window.history.pushState(null, "", "/");
+                            isClickScrolling.current = true;
+                            if (clickScrollTimeout.current) clearTimeout(clickScrollTimeout.current);
+                            clickScrollTimeout.current = setTimeout(() => {
+                              isClickScrolling.current = false;
+                            }, 1000);
+
+                            activeHrefRef.current = "/#work";
+                            setActiveHref("/#work");
+                            updatePill("/#work");
+
+                            setTimeout(() => {
+                              const el = document.getElementById("work");
+                              if (el) {
+                                el.scrollIntoView({ behavior: "smooth", block: "start" });
+                              }
+                              setTimeout(() => {
+                                window.history.replaceState(null, "", "/#work");
+                              }, 800);
+                            }, 30);
+                          } else {
+                            activeHrefRef.current = "/#work";
+                            setActiveHref("/#work");
                           }
+                        } else if (link.href === "/") {
+                          setMobileMenuOpen(false);
+                          if (router.pathname === "/") {
+                            e.preventDefault();
+                            isClickScrolling.current = true;
+                            if (clickScrollTimeout.current) clearTimeout(clickScrollTimeout.current);
+                            clickScrollTimeout.current = setTimeout(() => {
+                              isClickScrolling.current = false;
+                            }, 1000);
+
+                            window.scrollTo({ top: 0, behavior: "smooth" });
+                            setTimeout(() => {
+                              if (window.location.hash) {
+                                window.history.replaceState(null, "", window.location.pathname);
+                              }
+                            }, 800);
+                          }
+                          activeHrefRef.current = "/";
                           setActiveHref("/");
+                          updatePill("/");
                         } else {
+                          setMobileMenuOpen(false);
+                          activeHrefRef.current = link.href;
                           setActiveHref(link.href);
                         }
                       }}
@@ -463,7 +497,7 @@ export default function Navbar() {
                       <Icon className="w-4 h-4 shrink-0" />
                       <span>{link.label}</span>
                     </Link>
-                  </motion.div>
+                  </div>
                 );
               })}
             </motion.div>

@@ -77,28 +77,32 @@ export default function GameModal({ isOpen, onClose }: GameModalProps) {
 
           {/* Top Bar / Header */}
           <div
-            className="relative z-20 px-6 sm:px-10 py-5 sm:py-6 border-b flex flex-col items-center justify-center text-center shrink-0"
+            className="relative z-20 px-4 sm:px-10 py-4 sm:py-6 border-b flex items-start sm:items-center justify-between gap-3 shrink-0"
             style={{ borderColor: "var(--border-color)", backgroundColor: "var(--bg-nav)" }}
           >
-            <div className="flex items-center gap-2 mb-1">
+            {/* Dummy left spacer to keep perfect center alignment on desktop */}
+            <div className="hidden sm:block w-10 shrink-0" aria-hidden="true" />
+
+            {/* Center title and description */}
+            <div className="flex-1 min-w-0 text-center">
               <h2
-                className="font-[Outfit] text-2xl sm:text-3xl font-extrabold tracking-tight"
+                className="font-[Outfit] text-xl sm:text-3xl font-extrabold tracking-tight"
                 style={{ color: "var(--text-primary)" }}
               >
                 Side Quests
               </h2>
+              <p
+                className="text-xs sm:text-sm mt-1 max-w-xl mx-auto font-[Plus_Jakarta_Sans] leading-relaxed"
+                style={{ color: "var(--text-secondary)" }}
+              >
+                Stories, memories, and virtual worlds outside software engineering.
+              </p>
             </div>
-            <p
-              className="text-xs sm:text-sm font-[Plus_Jakarta_Sans]"
-              style={{ color: "var(--text-secondary)" }}
-            >
-              Stories, memories, and virtual worlds outside software engineering.
-            </p>
 
             {/* Top Right Close Button */}
             <button
               onClick={onClose}
-              className="absolute right-6 sm:right-10 top-1/2 -translate-y-1/2 p-2.5 rounded-xl border transition-all duration-150 cursor-pointer shadow-md flex items-center justify-center hover:scale-105 active:scale-95"
+              className="p-2 sm:p-2.5 rounded-xl border transition-all duration-150 cursor-pointer shadow-md flex items-center justify-center hover:scale-105 active:scale-95 shrink-0"
               style={{
                 backgroundColor: "var(--bg-card)",
                 borderColor: "var(--border-color)",

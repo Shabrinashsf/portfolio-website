@@ -1440,26 +1440,32 @@ export default function ArcanaSection() {
                 >
                   {/* Top Bar / Header */}
                   <div
-                    className="relative z-20 px-6 sm:px-10 py-5 sm:py-6 border-b flex flex-col items-center justify-center text-center shrink-0"
-                    style={{ borderColor: "var(--border-color)" }}
+                    className="relative z-20 px-4 sm:px-10 py-4 sm:py-6 border-b flex items-start sm:items-center justify-between gap-3 shrink-0"
+                    style={{ borderColor: "var(--border-color)", backgroundColor: "var(--bg-page)" }}
                   >
-                    <h2
-                      className="font-[Outfit] text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight"
-                      style={{ color: "var(--text-primary)" }}
-                    >
-                      {selectedCard.name}
-                    </h2>
-                    <p
-                      className="text-xs sm:text-sm mt-1 max-w-2xl font-[Plus_Jakarta_Sans] leading-relaxed"
-                      style={{ color: "var(--text-secondary)" }}
-                    >
-                      {selectedCard.description}
-                    </p>
+                    {/* Dummy left spacer to keep perfect center alignment on desktop */}
+                    <div className="hidden sm:block w-10 shrink-0" aria-hidden="true" />
+
+                    {/* Center title and description */}
+                    <div className="flex-1 min-w-0 text-center">
+                      <h2
+                        className="font-[Outfit] text-xl sm:text-3xl md:text-4xl font-extrabold tracking-tight"
+                        style={{ color: "var(--text-primary)" }}
+                      >
+                        {selectedCard.name}
+                      </h2>
+                      <p
+                        className="text-xs sm:text-sm mt-1 max-w-2xl mx-auto font-[Plus_Jakarta_Sans] leading-relaxed"
+                        style={{ color: "var(--text-secondary)" }}
+                      >
+                        {selectedCard.description}
+                      </p>
+                    </div>
 
                     {/* Top Right Close (X) Icon Button */}
                     <button
                       onClick={handleReset}
-                      className="absolute right-6 sm:right-10 top-1/2 -translate-y-1/2 p-2.5 rounded-xl border transition-all duration-150 cursor-pointer shadow-md flex items-center justify-center hover:scale-105"
+                      className="p-2 sm:p-2.5 rounded-xl border transition-all duration-150 cursor-pointer shadow-md flex items-center justify-center hover:scale-105 shrink-0"
                       style={{
                         backgroundColor: "var(--bg-card)",
                         borderColor: "var(--border-color)",

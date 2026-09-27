@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
@@ -35,15 +36,26 @@ const itemVariants: Variants = {
 };
 
 export default function Home() {
+  const router = useRouter();
   const [workTopSpacing, setWorkTopSpacing] = useState<number | null>(null);
 
   useEffect(() => {
-    if (typeof window !== "undefined" && window.location.hash === "#work") {
-      const el = document.getElementById("work");
-      if (el) {
-        setTimeout(() => {
-          el.scrollIntoView({ behavior: "smooth" });
-        }, 150);
+    if (typeof window !== "undefined") {
+      const isWorkHash =
+        window.location.hash === "#work" || (router.asPath && router.asPath.includes("#work"));
+
+      if (isWorkHash) {
+        const el = document.getElementById("work");
+        if (el) {
+          el.scrollIntoView({ behavior: "auto", block: "start" });
+        }
+        const t = setTimeout(() => {
+          const elRetry = document.getElementById("work");
+          if (elRetry) {
+            elRetry.scrollIntoView({ behavior: "auto", block: "start" });
+          }
+        }, 50);
+        return () => clearTimeout(t);
       }
     }
   }, []);
