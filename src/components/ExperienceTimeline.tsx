@@ -1,13 +1,12 @@
 "use client";
 
-import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ScrollReveal } from "@/components/animations";
 import GridBackground from "@/components/GridBackground";
 
 type ExperienceItem = {
   id: number;
-  type: "work" | "volunteer";
+  type: "work";
   org: string;
   period: string;
   role: string;
@@ -22,8 +21,7 @@ const experiences: ExperienceItem[] = [
     org: "Direktorat Pengembangan dan Sistem Informasi ITS",
     period: "June 2026 - Present",
     role: "Fullstack Developer",
-    description:
-      "",
+    description: "",
     tags: ["PHP", "Laravel", "MySQL"],
   },
   {
@@ -32,8 +30,7 @@ const experiences: ExperienceItem[] = [
     org: "Dikmenum Dinas Pendidikan Jawa Timur",
     period: "January 2026 - June 2026",
     role: "Backend Developer",
-    description:
-      "",
+    description: "",
     tags: ["PHP", "Laravel", "Golang", "MariaDB"],
   },
   {
@@ -46,96 +43,9 @@ const experiences: ExperienceItem[] = [
       "Designed a web-based learning platform architecture with user authentication, personalized dashboards, class management, quizzes, and progress tracking. Implemented role-based access control for admins, tutors, and members. Tech stack: Golang, Gin, Gorm, PostgreSQL.",
     tags: ["Go", "Gin", "Gorm", "PostgreSQL"],
   },
-  {
-    id: 4,
-    type: "volunteer",
-    org: "Schematics 2026",
-    period: "Maret 2026 — Now",
-    role: "Technical Project Manager",
-    description:
-      "Schematics is an annual event organized by students of the Informatics Engineering Department at Institut Teknologi Sepuluh Nopember.",
-    tags: ["Team Management", "Go", "Gin", "PostgreSQL"],
-  },
-  {
-    id: 5,
-    type: "volunteer",
-    org: "TEDxITS 2026",
-    period: "Jan 2026 - May 2026",
-    role: "Manager Backend",
-    description:
-      "TEDxITS is an annual event that provides a platform for the community, especially those within the Institut Teknologi Sepuluh Nopember environment, to share their compelling ideas.",
-    tags: ["Go", "Fiber", "PostgreSQL"],
-  },
-  {
-    id: 6,
-    type: "volunteer",
-    org: "Futurest 2026",
-    period: "Feb 2026 - Apr 2026",
-    role: "Senior Backend Developer",
-    description:
-      "Futurest (Future Energy Summit) is the annual flagship event of the Society of Renewable Energy (SRE) ITS.",
-    tags: ["Go", "Gin", "PostgreSQL"],
-  },
-  {
-    id: 7,
-    type: "volunteer",
-    org: "Ini Lho ITS! 2026",
-    period: "Feb 2026 - Apr 2026",
-    role: "Manager Backend",
-    description:
-      "Ini Lho ITS! is an annual event that introduces Institut Teknologi Sepuluh Nopember to the wider public especially high school and vocational school students.",
-    tags: ["Go", "Gin", "PostgreSQL"],
-  },
-  {
-    id: 8,
-    type: "volunteer",
-    org: "180DC ITS",
-    period: "Oct 2025 — Dec 2025",
-    role: "Junior Backend Developer",
-    description:
-      "180dc ITS is a global consultancy organization that offer high-quality consulting services to nonprofits, social enterprises, and socially conscious organizations.",
-    tags: ["Go", "Gin", "PostgreSQL"],
-  },
-  {
-    id: 9,
-    type: "volunteer",
-    org: "Schematics 2025",
-    period: "Sep 2025 — Oct 2025",
-    role: "Vice Director 2 — WebDev",
-    description:
-      "Schematics is an annual event organized by students of the Informatics Engineering Department at Institut Teknologi Sepuluh Nopember.",
-    tags: ["Go", "Gin", "PostgreSQL", "Team Management"],
-  },
-  {
-    id: 10,
-    type: "volunteer",
-    org: "TEDxITS 2025",
-    period: "Aug 2025 — Sep 2025",
-    role: "Junior Backend Developer",
-    description:
-      "TEDxITS is an annual event that provides a platform for the community, especially those within the Institut Teknologi Sepuluh Nopember environment, to share their compelling ideas.",
-    tags: ["Go", "Gin", "PostgreSQL"],
-  },
-  {
-    id: 11,
-    type: "volunteer",
-    org: "Ini Lho ITS! 2025",
-    period: "Jun 2025 — Aug 2025",
-    role: "Junior Backend Developer",
-    description:
-      "Ini Lho ITS! is an annual event that introduces Institut Teknologi Sepuluh Nopember to the wider public especially high school and vocational school students.",
-    tags: ["Go", "Gin", "PostgreSQL"],
-  },
 ];
 
 export default function ExperienceTimeline() {
-  const [filter, setFilter] = useState<"all" | "work" | "volunteer">("work");
-
-  const filtered =
-    filter === "all"
-      ? experiences
-      : experiences.filter((e) => e.type === filter);
-
   return (
     <section
       className="min-h-[calc(100vh-64px)] relative overflow-hidden"
@@ -148,49 +58,22 @@ export default function ExperienceTimeline() {
           <h1 className="font-[Outfit] text-4xl md:text-5xl lg:text-6xl font-extrabold mb-5 leading-tight pt-6 md:pt-10"
             style={{ color: "var(--accent)" }}
           >
-            Experience<span style={{ color: "var(--text-primary)" }}>.</span>
+            Working Experience<span style={{ color: "var(--text-primary)" }}>.</span>
           </h1>
           <p className="font-[Plus_Jakarta_Sans] text-base md:text-lg max-w-2xl leading-relaxed"
             style={{ color: "var(--text-secondary)" }}
           >
-            A timeline of my professional journey and volunteer engagements,
-            detailing the roles, responsibilities, and technologies I&apos;ve
-            encountered along the way.
+            A timeline of my professional work journey, detailing the roles,
+            responsibilities, and production systems I&apos;ve built along the way.
           </p>
         </ScrollReveal>
-
-        {/* Filter Toggle */}
-        <motion.div
-          className="mb-12 flex space-x-6 border-b pb-3"
-          style={{ borderColor: "var(--border-color)" }}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        >
-          {[
-            { key: "work", label: "Work" },
-            { key: "volunteer", label: "Volunteer" },
-          ].map((tab) => (
-            <button
-              key={tab.key}
-              onClick={() => setFilter(tab.key as "work" | "volunteer")}
-              className="font-[JetBrains_Mono] text-sm tracking-wider uppercase pb-2 transition-colors duration-200"
-              style={{
-                color: filter === tab.key ? "var(--accent)" : "var(--text-muted)",
-                borderBottom: filter === tab.key ? `2px solid var(--accent)` : "2px solid transparent",
-              }}
-            >
-              {tab.label}
-            </button>
-          ))}
-        </motion.div>
 
         {/* Vertical Timeline */}
         <div className="relative border-l pl-8 md:pl-12 space-y-14"
           style={{ borderColor: "var(--border-color)" }}
         >
           <AnimatePresence mode="popLayout">
-            {filtered.map((item, index) => (
+            {experiences.map((item, index) => (
               <motion.div
                 key={item.id}
                 initial={{ opacity: 0, x: -20 }}
@@ -224,13 +107,6 @@ export default function ExperienceTimeline() {
                     >
                       {item.org}
                     </p>
-                    {item.type === "volunteer" && (
-                      <p className="font-[JetBrains_Mono] text-xs tracking-wider uppercase mt-1"
-                        style={{ color: "var(--accent)" }}
-                      >
-                        Volunteer
-                      </p>
-                    )}
                   </div>
 
                   {/* Content Card */}

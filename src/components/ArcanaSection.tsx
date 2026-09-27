@@ -34,7 +34,7 @@ export const ARCANA_CARDS: ArcanaCardData[] = [
     quote:
       "Thou art I, and I am thou... Thou hast woven raw data into living light, creating worlds through kinetic harmony and aesthetic grace.",
     description:
-      "Master of dynamic interfaces, responsive component hierarchies, state orchestration, and fluid micro-animations that turn code into feeling.",
+      "Architecting seamless digital experiences through intuitive user interfaces, responsive layouts, modular component design, and robust client-side state management.",
     primaryColor: "#00072d",
     accentColor: "#a8c7fa",
     glowColor: "rgba(0, 7, 45, 0.8)",
@@ -72,7 +72,7 @@ export const ARCANA_CARDS: ArcanaCardData[] = [
     quote:
       "Thou art I, and I am thou... From the deepest foundations of logic, thou hast forged the backbone of the digital realm.",
     description:
-      "Specialized in high-concurrency systems, robust RESTful APIs, distributed caching, and clean relational databases. Built to handle scale without flinching.",
+      "Designing resilient server architectures, high-performance API pipelines, and secure data layers built to handle high concurrency and complex business logic.",
     primaryColor: "#00072d",
     accentColor: "#a8c7fa",
     glowColor: "rgba(0, 7, 45, 0.8)",
@@ -110,7 +110,7 @@ export const ARCANA_CARDS: ArcanaCardData[] = [
     quote:
       "Thou art I, and I am thou... By the endless turning of the wheel, the pipelines flow unbroken and the gates remain unbreached.",
     description:
-      "Dedicated to deterministic containerization, continuous integration workflows, server orchestration, and resilient reverse proxy topologies.",
+      "Engineering resilient cloud infrastructure, automated continuous delivery pipelines, and proactive observability to guarantee high availability and stability.",
     primaryColor: "#00072d",
     accentColor: "#a8c7fa",
     glowColor: "rgba(0, 7, 45, 0.8)",
@@ -139,6 +139,216 @@ export const ARCANA_CARDS: ArcanaCardData[] = [
     ],
   },
 ];
+
+interface TechStackItem {
+  name: string;
+  icon: string;
+  size?: string;
+}
+
+interface VolunteerItem {
+  id: number;
+  org: string;
+  period: string;
+  role: string;
+  description: string;
+  tags: string[];
+}
+
+const ARCANA_TECH_STACK: Record<string, Record<string, TechStackItem[]>> = {
+  backend: {
+    "Programming Language": [
+      { name: "Go", icon: "/img/go.svg", size: "w-8 h-8" },
+      { name: "PHP", icon: "/img/php.svg", size: "w-7 h-7" },
+      { name: "TypeScript", icon: "/img/typescript.svg", size: "w-7 h-7" },
+      { name: "Python", icon: "/img/python.svg", size: "w-7 h-7" },
+    ],
+    "Framework & Library": [
+      { name: "Gin", icon: "/img/gin.svg", size: "w-7 h-7" },
+      { name: "Fiber", icon: "/img/fiber.svg", size: "w-8 h-8" },
+      { name: "Laravel", icon: "/img/laravel.svg", size: "w-7 h-7" },
+      { name: "NestJS", icon: "/img/nestjs.svg", size: "w-7 h-7" },
+      { name: "ExpressJS", icon: "/img/express.svg", size: "w-7 h-7" },
+    ],
+    "Database": [
+      { name: "PostgreSQL", icon: "/img/postgresql.svg", size: "w-7 h-7" },
+      { name: "MySQL", icon: "/img/mysql.svg", size: "w-7 h-7" },
+      { name: "MariaDB", icon: "/img/mariadb.svg", size: "w-7 h-7" },
+      { name: "Redis", icon: "/img/redis.svg", size: "w-7 h-7" },
+    ],
+    "Tools": [
+      { name: "Git", icon: "/img/git.svg", size: "w-7 h-7" },
+      { name: "GitHub", icon: "/img/github.svg", size: "w-7 h-7" },
+      { name: "Bruno", icon: "/img/bruno.svg", size: "w-7 h-7" },
+      { name: "Postman", icon: "/img/postman.svg", size: "w-7 h-7" },
+      { name: "Hoppscotch", icon: "/img/hoppscotch.svg", size: "w-7 h-7" },
+    ],
+  },
+  frontend: {
+    "Programming Language": [
+      { name: "TypeScript", icon: "/img/typescript.svg", size: "w-7 h-7" },
+    ],
+    "Framework & Library": [
+      { name: "Laravel", icon: "/img/laravel.svg", size: "w-7 h-7" },
+      { name: "Next.js", icon: "/img/nextdotjs.svg", size: "w-7 h-7" },
+      { name: "React", icon: "/img/react.svg", size: "w-7 h-7" },
+      { name: "Tailwind", icon: "/img/tailwindcss.svg", size: "w-7 h-7" },
+    ],
+    "Tools": [
+      { name: "Git", icon: "/img/git.svg", size: "w-7 h-7" },
+      { name: "GitHub", icon: "/img/github.svg", size: "w-7 h-7" },
+    ],
+  },
+  devops: {
+    "DevOps & Infrastructure": [
+      { name: "Docker", icon: "/img/docker.svg", size: "w-7 h-7" },
+      { name: "NGINX", icon: "/img/nginx.svg", size: "w-7 h-7" },
+      { name: "Git", icon: "/img/git.svg", size: "w-7 h-7" },
+      { name: "GitHub", icon: "/img/github.svg", size: "w-7 h-7" },
+      { name: "Grafana", icon: "/img/grafana.svg", size: "w-7 h-7" },
+      { name: "Cloudflare", icon: "/img/cloudflare.svg", size: "w-7 h-7" },
+      { name: "Linux", icon: "/img/linux.svg", size: "w-7 h-7" },
+    ],
+  },
+};
+
+const TECH_LOGOS: Record<string, string> = {
+  "Go": "/img/go.svg",
+  "Golang": "/img/go.svg",
+  "Gin": "/img/gin.svg",
+  "Fiber": "/img/fiber.svg",
+  "Laravel": "/img/laravel.svg",
+  "PHP": "/img/php.svg",
+  "PostgreSQL": "/img/postgresql.svg",
+  "MySQL": "/img/mysql.svg",
+  "MariaDB": "/img/mariadb.svg",
+  "Redis": "/img/redis.svg",
+  "TypeScript": "/img/typescript.svg",
+  "Python": "/img/python.svg",
+  "Next.js": "/img/nextdotjs.svg",
+  "NextJS": "/img/nextdotjs.svg",
+  "React": "/img/react.svg",
+  "Tailwind": "/img/tailwindcss.svg",
+  "Docker": "/img/docker.svg",
+  "NGINX": "/img/nginx.svg",
+  "Git": "/img/git.svg",
+  "GitHub": "/img/github.svg",
+  "Bruno": "/img/bruno.svg",
+  "Postman": "/img/postman.svg",
+  "Hoppscotch": "/img/hoppscotch.svg",
+  "Hopscotch": "/img/hoppscotch.svg",
+  "Grafana": "/img/grafana.svg",
+  "Cloudflare": "/img/cloudflare.svg",
+  "Linux": "/img/linux.svg",
+};
+
+const ARCANA_VOLUNTEER_EXPERIENCES: Record<string, VolunteerItem[]> = {
+  frontend: [
+    {
+      id: 1,
+      org: "Schematics 2026",
+      period: "Maret 2026 — Now",
+      role: "Technical Project Manager",
+      description:
+        "Schematics is an annual event organized by students of the Informatics Engineering Department at Institut Teknologi Sepuluh Nopember.",
+      tags: ["TypeScript", "Next.js", "React", "Tailwind"],
+    },
+  ],
+  backend: [
+    {
+      id: 1,
+      org: "Schematics 2026",
+      period: "Maret 2026 — Now",
+      role: "Technical Project Manager",
+      description:
+        "Schematics is an annual event organized by students of the Informatics Engineering Department at Institut Teknologi Sepuluh Nopember.",
+      tags: ["Go", "Gin", "PostgreSQL", "Bruno"],
+    },
+    {
+      id: 2,
+      org: "TEDxITS 2026",
+      period: "Jan 2026 - May 2026",
+      role: "Manager Backend",
+      description:
+        "TEDxITS is an annual event that provides a platform for the community, especially those within the Institut Teknologi Sepuluh Nopember environment, to share their compelling ideas.",
+      tags: ["Go", "Fiber", "PostgreSQL", "Bruno"],
+    },
+    {
+      id: 3,
+      org: "Futurest 2026",
+      period: "Feb 2026 - Apr 2026",
+      role: "Senior Backend Developer",
+      description:
+        "Futurest (Future Energy Summit) is the annual flagship event of the Society of Renewable Energy (SRE) ITS.",
+      tags: ["Go", "Gin", "PostgreSQL", "Bruno"],
+    },
+    {
+      id: 4,
+      org: "Ini Lho ITS! 2026",
+      period: "Feb 2026 - Apr 2026",
+      role: "Manager Backend",
+      description:
+        "Ini Lho ITS! is an annual event that introduces Institut Teknologi Sepuluh Nopember to the wider public especially high school and vocational school students.",
+      tags: ["Go", "Gin", "PostgreSQL", "Hoppscotch"],
+    },
+    {
+      id: 5,
+      org: "180DC ITS",
+      period: "Oct 2025 — Dec 2025",
+      role: "Junior Backend Developer",
+      description:
+        "180dc ITS is a global consultancy organization that offer high-quality consulting services to nonprofits, social enterprises, and socially conscious organizations.",
+      tags: ["Go", "Gin", "PostgreSQL", "Hoppscotch"],
+    },
+    {
+      id: 6,
+      org: "Schematics 2025",
+      period: "Sep 2025 — Oct 2025",
+      role: "Vice Director 2 — WebDev",
+      description:
+        "Schematics is an annual event organized by students of the Informatics Engineering Department at Institut Teknologi Sepuluh Nopember.",
+      tags: ["Go", "Gin", "PostgreSQL", "Postman"],
+    },
+    {
+      id: 7,
+      org: "TEDxITS 2025",
+      period: "Aug 2025 — Sep 2025",
+      role: "Junior Backend Developer",
+      description:
+        "TEDxITS is an annual event that provides a platform for the community, especially those within the Institut Teknologi Sepuluh Nopember environment, to share their compelling ideas.",
+      tags: ["Go", "Gin", "PostgreSQL", "Postman"],
+    },
+    {
+      id: 8,
+      org: "Ini Lho ITS! 2025",
+      period: "Jun 2025 — Aug 2025",
+      role: "Junior Backend Developer",
+      description:
+        "Ini Lho ITS! is an annual event that introduces Institut Teknologi Sepuluh Nopember to the wider public especially high school and vocational school students.",
+      tags: ["Go", "Gin", "PostgreSQL", "Hoppscotch"],
+    },
+  ],
+  devops: [
+    {
+      id: 1,
+      org: "Schematics 2026",
+      period: "Maret 2026 — Now",
+      role: "Technical Project Manager",
+      description:
+        "Schematics is an annual event organized by students of the Informatics Engineering Department at Institut Teknologi Sepuluh Nopember.",
+      tags: ["Linux", "NGINX", "Docker", "Grafana", "Cloudflare"],
+    },
+    {
+      id: 2,
+      org: "Schematics 2025",
+      period: "Sep 2025 — Oct 2025",
+      role: "Vice Director 2 — WebDev",
+      description:
+        "Schematics is an annual event organized by students of the Informatics Engineering Department at Institut Teknologi Sepuluh Nopember.",
+      tags: ["Linux", "NGINX", "Docker", "Grafana", "Cloudflare"],
+    },
+  ],
+};
 
 // 18 Polygonal Shards covering the card for the glass shatter explosion
 const SHARDS = [
@@ -615,6 +825,10 @@ export default function ArcanaSection() {
       };
 
       const preventScroll = (e: Event) => {
+        const target = e.target as HTMLElement | null;
+        if (target && target.closest(".modal-scrollable")) {
+          return;
+        }
         e.preventDefault();
       };
 
@@ -1196,58 +1410,262 @@ export default function ArcanaSection() {
         typeof document !== "undefined" &&
         createPortal(
           <AnimatePresence>
-            {phase === "revealed" && selectedCard && (
-              <motion.div
-                className="fixed inset-0 z-[99999] flex flex-col items-center justify-center w-full h-full overflow-hidden overscroll-none touch-none select-none bg-[#FDF8F2] dark:bg-[#131317]"
-                style={{
-                  backgroundColor: "var(--bg-page)",
-                  color: "var(--text-primary)",
-                  opacity: 1,
-                }}
-                initial={{ opacity: 1 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.2 }}
-                onWheel={(e) => e.stopPropagation()}
-                onTouchMove={(e) => e.stopPropagation()}
-              >
-                {/* Top Right Close (X) Icon Button */}
-                <button
-                  onClick={handleReset}
-                  className="absolute top-6 right-6 sm:top-8 sm:right-8 z-50 p-2.5 rounded-lg bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 border border-black/10 dark:border-white/10 hover:border-black/20 dark:hover:border-white/20 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors duration-150 cursor-pointer shadow-md"
-                  aria-label="Close Window"
-                >
-                  <svg
-                    className="w-6 h-6"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                </button>
+            {phase === "revealed" && selectedCard && (() => {
+              const cardTech = ARCANA_TECH_STACK[selectedCard.id] || {};
+              const cardVolunteer = ARCANA_VOLUNTEER_EXPERIENCES[selectedCard.id] || [];
+              const cardLabel =
+                selectedCard.id === "frontend"
+                  ? "Frontend"
+                  : selectedCard.id === "backend"
+                    ? "Backend"
+                    : "DevOps";
+              const totalItems = Object.values(cardTech).reduce(
+                (acc, curr) => acc + curr.length,
+                0
+              );
 
-                {/* Main Window Content */}
+              return (
                 <motion.div
-                  initial={{ opacity: 0, y: 15 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                  className="relative z-10 flex flex-col items-center justify-center p-6 text-center max-w-4xl mx-auto"
+                  className="fixed inset-0 z-[99999] flex flex-col w-full h-full overflow-hidden bg-[#FDF8F2] dark:bg-[#131317]"
+                  style={{
+                    backgroundColor: "var(--bg-page)",
+                    color: "var(--text-primary)",
+                    opacity: 1,
+                  }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.25 }}
                 >
-                  <h2
-                    className="font-[Outfit] text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight"
-                    style={{ color: "var(--text-primary)" }}
+                  {/* Top Bar / Header */}
+                  <div
+                    className="relative z-20 px-6 sm:px-10 py-5 sm:py-6 border-b flex flex-col items-center justify-center text-center shrink-0"
+                    style={{ borderColor: "var(--border-color)" }}
                   >
-                    Development Process 😼
-                  </h2>
+                    <h2
+                      className="font-[Outfit] text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight"
+                      style={{ color: "var(--text-primary)" }}
+                    >
+                      {selectedCard.name}
+                    </h2>
+                    <p
+                      className="text-xs sm:text-sm mt-1 max-w-2xl font-[Plus_Jakarta_Sans] leading-relaxed"
+                      style={{ color: "var(--text-secondary)" }}
+                    >
+                      {selectedCard.description}
+                    </p>
+
+                    {/* Top Right Close (X) Icon Button */}
+                    <button
+                      onClick={handleReset}
+                      className="absolute right-6 sm:right-10 top-1/2 -translate-y-1/2 p-2.5 rounded-xl border transition-all duration-150 cursor-pointer shadow-md flex items-center justify-center hover:scale-105"
+                      style={{
+                        backgroundColor: "var(--bg-card)",
+                        borderColor: "var(--border-color)",
+                        color: "var(--text-primary)",
+                      }}
+                      aria-label="Close Window"
+                      title="Close (Esc)"
+                    >
+                      <svg
+                        className="w-5 h-5 sm:w-6 sm:h-6"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M6 18L18 6M6 6l12 12"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+
+                  {/* Main Window 2-Column Content */}
+                  <div className="relative z-10 flex-1 min-h-0 w-full max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 grid grid-cols-1 lg:grid-cols-12 gap-6 overflow-hidden">
+                    {/* Left Column: Tech Stack Arsenal (5 cols) */}
+                    <div
+                      className="lg:col-span-5 flex flex-col min-h-0 rounded-2xl border p-5 sm:p-6 shadow-lg overflow-hidden"
+                      style={{
+                        backgroundColor: "var(--bg-card)",
+                        borderColor: "var(--border-color)",
+                      }}
+                    >
+                      <div
+                        className="flex items-center mb-4 pb-3 border-b shrink-0"
+                        style={{ borderColor: "var(--border-color)" }}
+                      >
+                        <h3
+                          className="font-[Outfit] text-base font-bold tracking-wide uppercase"
+                          style={{ color: "var(--text-primary)" }}
+                        >
+                          TECH
+                        </h3>
+                      </div>
+
+                      {/* Scrollable Tech Stack Categories */}
+                      <div className="modal-scrollable flex-1 overflow-y-auto pr-2 space-y-6">
+                        {Object.entries(cardTech).map(([category, items]) => (
+                          <div key={category}>
+                            <h4
+                              className="font-[Plus_Jakarta_Sans] text-xs sm:text-sm font-semibold mb-3.5 flex items-center gap-2"
+                              style={{ color: "var(--text-primary)" }}
+                            >
+                              <span
+                                className="w-1 h-4 rounded block"
+                                style={{ backgroundColor: "var(--accent)" }}
+                              />
+                              {category}
+                            </h4>
+                            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-4 gap-3">
+                              {items.map((item) => (
+                                <motion.div
+                                  key={item.name}
+                                  className="tech-icon flex flex-col items-center select-none"
+                                  whileHover={{ scale: 1.08, rotate: 4 }}
+                                  transition={{
+                                    type: "spring",
+                                    stiffness: 180,
+                                    damping: 25,
+                                  }}
+                                >
+                                  <div
+                                    className="w-13 h-13 sm:w-14 sm:h-14 rounded-xl shadow-md flex items-center justify-center border"
+                                    style={{
+                                      backgroundColor: "var(--bg-page)",
+                                      borderColor: "var(--border-color)",
+                                    }}
+                                  >
+                                    <img
+                                      src={item.icon}
+                                      alt={item.name}
+                                      className={`${item.size || "w-7 h-7"} icon-white`}
+                                    />
+                                  </div>
+                                  <span
+                                    className="text-xs mt-1.5 font-medium font-[Plus_Jakarta_Sans] text-center truncate max-w-full"
+                                    style={{ color: "var(--text-muted)" }}
+                                  >
+                                    {item.name}
+                                  </span>
+                                </motion.div>
+                              ))}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Right Column: Volunteer Experience (7 cols) */}
+                    <div
+                      className="lg:col-span-7 flex flex-col min-h-0 rounded-2xl border p-5 sm:p-6 shadow-lg overflow-hidden"
+                      style={{
+                        backgroundColor: "var(--bg-card)",
+                        borderColor: "var(--border-color)",
+                      }}
+                    >
+                      <div
+                        className="flex items-center mb-4 pb-3 border-b shrink-0"
+                        style={{ borderColor: "var(--border-color)" }}
+                      >
+                        <h3
+                          className="font-[Outfit] text-base font-bold tracking-wide uppercase"
+                          style={{ color: "var(--text-primary)" }}
+                        >
+                          Volunteer Experience
+                        </h3>
+                      </div>
+
+                      {/* Scrollable Volunteer Cards Grid */}
+                      <div className="modal-scrollable flex-1 overflow-y-auto pr-2">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+                          {cardVolunteer.map((vol) => (
+                            <div
+                              key={vol.id}
+                              className="p-4 rounded-xl border transition-all duration-200 group hover:border-[var(--accent)] flex flex-col justify-between"
+                              style={{
+                                backgroundColor: "var(--bg-page)",
+                                borderColor: "var(--border-color)",
+                              }}
+                            >
+                              <div>
+                                <div className="flex items-start justify-between gap-2 mb-1">
+                                  <h4
+                                    className="font-[Outfit] font-bold text-sm sm:text-base group-hover:text-[var(--accent)] transition-colors"
+                                    style={{ color: "var(--text-primary)" }}
+                                  >
+                                    {vol.org}
+                                  </h4>
+                                  <span
+                                    className="text-[10px] px-2 py-0.5 rounded font-mono font-semibold shrink-0"
+                                    style={{
+                                      backgroundColor: vol.period.includes("Now")
+                                        ? "rgba(16, 185, 129, 0.12)"
+                                        : "rgba(150, 150, 150, 0.1)",
+                                      color: vol.period.includes("Now")
+                                        ? "#10b981"
+                                        : "var(--text-muted)",
+                                      border: `1px solid ${vol.period.includes("Now")
+                                        ? "rgba(16, 185, 129, 0.25)"
+                                        : "var(--border-color)"
+                                        }`,
+                                    }}
+                                  >
+                                    {vol.period}
+                                  </span>
+                                </div>
+                                <p
+                                  className="text-xs sm:text-sm font-semibold mb-1 font-[Plus_Jakarta_Sans]"
+                                  style={{ color: "var(--accent)" }}
+                                >
+                                  {vol.role}
+                                </p>
+                                {vol.description && (
+                                  <p
+                                    className="text-xs leading-relaxed font-[Plus_Jakarta_Sans]"
+                                    style={{ color: "var(--text-secondary)" }}
+                                  >
+                                    {vol.description}
+                                  </p>
+                                )}
+                              </div>
+
+                              {/* Tech Stack Logos instead of Text */}
+                              <div
+                                className="flex items-center gap-1.5 mt-3 pt-2.5 border-t"
+                                style={{ borderColor: "var(--border-color)" }}
+                              >
+                                {vol.tags
+                                  .filter((tag) => TECH_LOGOS[tag])
+                                  .map((tag) => (
+                                    <div
+                                      key={tag}
+                                      className="w-7 h-7 rounded-lg border flex items-center justify-center shadow-xs transition-transform hover:scale-110"
+                                      style={{
+                                        backgroundColor: "var(--bg-card)",
+                                        borderColor: "var(--border-color)",
+                                      }}
+                                      title={tag}
+                                    >
+                                      <img
+                                        src={TECH_LOGOS[tag]}
+                                        alt={tag}
+                                        className="w-4 h-4 icon-white object-contain"
+                                      />
+                                    </div>
+                                  ))}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </motion.div>
-              </motion.div>
-            )}
+              );
+            })()}
           </AnimatePresence>,
           document.body
         )}

@@ -8,7 +8,7 @@ export default function Work() {
         <title>Work - Shabrina Amalia Safaana</title>
         <meta
           name="description"
-          content="Work experience and volunteer experience of Shabrina Amalia Safaana."
+          content="Working experience of Shabrina Amalia Safaana."
         />
       </Head>
       <ExperienceTimeline />
