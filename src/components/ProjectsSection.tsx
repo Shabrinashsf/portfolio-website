@@ -102,10 +102,107 @@ const filters = ["All", "API", "Boilerplate", "Utility", "Frontend"] as const;
 
 type FilterType = (typeof filters)[number];
 
-function getStatusDot(status: string) {
-  if (status === "Stable") return "var(--accent)";
-  if (status === "In Progress") return "var(--accent-light)";
-  return "var(--text-muted)";
+const PROJECT_TECH_LOGOS: Record<string, string> = {
+  Go: "/img/go.svg",
+  Golang: "/img/go.svg",
+  Gin: "/img/gin.svg",
+  Gorm: "/img/gorm.svg",
+  PostgreSQL: "/img/postgresql.svg",
+  MySQL: "/img/mysql.svg",
+  MariaDB: "/img/mariadb.svg",
+  PHP: "/img/php.svg",
+  Laravel: "/img/laravel.svg",
+  Docker: "/img/docker.svg",
+  NextJS: "/img/nextdotjs.svg",
+  "Next.js": "/img/nextdotjs.svg",
+  TypeScript: "/img/typescript.svg",
+  "Tailwind CSS": "/img/tailwindcss.svg",
+  TailwindCSS: "/img/tailwindcss.svg",
+  NestJS: "/img/nestjs.svg",
+  TypeORM: "/img/typeorm.svg",
+  Excel: "/img/excel.svg",
+  React: "/img/react.svg",
+};
+
+function getProjectSlug(link: string, name: string) {
+  if (link && link.includes("github.com/")) {
+    const parts = link.split("github.com/")[1]?.split("/");
+    const repo = parts && parts.length > 1 ? parts[1] : parts?.[0];
+    if (repo) return `~/${repo}`;
+  }
+  return `~/${name.toLowerCase().replace(/\s+/g, "-")}`;
+}
+
+function getCategoryIcon(category: FilterType, sizeClass = "w-3 h-3") {
+  switch (category) {
+    case "All":
+      return (
+        <svg className={`${sizeClass} shrink-0`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+        </svg>
+      );
+    case "Boilerplate":
+      return (
+        <svg className={`${sizeClass} shrink-0`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+        </svg>
+      );
+    case "API":
+      return (
+        <svg className={`${sizeClass} shrink-0`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <ellipse cx="12" cy="5" rx="9" ry="3" strokeWidth={2} />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5v14a9 3 0 0018 0V5" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12a9 3 0 0018 0" />
+        </svg>
+      );
+    case "Utility":
+      return (
+        <svg className={`${sizeClass} shrink-0`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+        </svg>
+      );
+    case "Frontend":
+      return (
+        <svg className={`${sizeClass} shrink-0`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+        </svg>
+      );
+  }
+}
+
+function renderCategoryBadge(category: Project["category"]) {
+  switch (category) {
+    case "Boilerplate":
+      return (
+        <span className="tag-boilerplate inline-flex items-center gap-1 font-[JetBrains_Mono] text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded border">
+          {getCategoryIcon("Boilerplate", "w-3 h-3")}
+          Boilerplate
+        </span>
+      );
+    case "API":
+      return (
+        <span className="tag-api inline-flex items-center gap-1 font-[JetBrains_Mono] text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded border">
+          {getCategoryIcon("API", "w-3 h-3")}
+          API
+        </span>
+      );
+    case "Utility":
+      return (
+        <span className="tag-utility inline-flex items-center gap-1 font-[JetBrains_Mono] text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded border">
+          {getCategoryIcon("Utility", "w-3 h-3")}
+          Utility
+        </span>
+      );
+    case "Frontend":
+      return (
+        <span className="tag-frontend inline-flex items-center gap-1 font-[JetBrains_Mono] text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded border">
+          {getCategoryIcon("Frontend", "w-3 h-3")}
+          Frontend
+        </span>
+      );
+    default:
+      return null;
+  }
 }
 
 const containerVariants = {
@@ -152,25 +249,46 @@ export default function ProjectsSection() {
 
           {/* Filters */}
           <motion.div
-            className="flex flex-wrap gap-3"
+            className="flex flex-wrap gap-2.5 sm:gap-3"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           >
-            {filters.map((f) => (
-              <button
-                key={f}
-                onClick={() => setActiveFilter(f)}
-                className="px-5 py-2 rounded-full border font-[JetBrains_Mono] text-sm tracking-wider uppercase transition-colors duration-200"
-                style={{
-                  borderColor: activeFilter === f ? "var(--accent)" : "var(--border-color)",
-                  color: activeFilter === f ? "var(--accent)" : "var(--text-muted)",
-                  backgroundColor: activeFilter === f ? "rgba(30, 86, 205, 0.1)" : "transparent",
-                }}
-              >
-                {f}
-              </button>
-            ))}
+            {filters.map((f) => {
+              const isActive = activeFilter === f;
+              let activeClass = "";
+              switch (f) {
+                case "All":
+                  activeClass = "tag-all";
+                  break;
+                case "Boilerplate":
+                  activeClass = "tag-boilerplate";
+                  break;
+                case "API":
+                  activeClass = "tag-api";
+                  break;
+                case "Utility":
+                  activeClass = "tag-utility";
+                  break;
+                case "Frontend":
+                  activeClass = "tag-frontend";
+                  break;
+              }
+
+              return (
+                <button
+                  key={f}
+                  onClick={() => setActiveFilter(f)}
+                  className={`inline-flex items-center gap-1.5 font-[JetBrains_Mono] text-xs sm:text-sm uppercase tracking-wider px-3.5 py-1.5 rounded border transition-all duration-200 cursor-pointer ${isActive
+                    ? `${activeClass} font-bold shadow-sm ring-1 ring-white/10`
+                    : "tag-btn-inactive font-medium"
+                    }`}
+                >
+                  {getCategoryIcon(f, "w-3.5 h-3.5")}
+                  {f}
+                </button>
+              );
+            })}
           </motion.div>
         </ScrollReveal>
 
@@ -191,94 +309,112 @@ export default function ProjectsSection() {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ duration: 0.4, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}
-                className="border rounded-lg p-6 md:p-8 flex flex-col h-full group"
-                style={{
-                  backgroundColor: "var(--bg-page)",
-                  borderColor: "var(--border-color)",
-                }}
-                whileHover={{ y: -4, borderColor: "var(--accent)" }}
+                className="preview-card flex flex-col h-full overflow-hidden"
               >
-                {/* Top Row: Category + Status */}
-                <div className="flex justify-between items-start mb-5">
-                  <span className="font-[JetBrains_Mono] text-xs tracking-wider uppercase px-3 py-1.5 rounded"
-                    style={{
-                      color: "var(--accent)",
-                      backgroundColor: "rgba(30, 86, 205, 0.1)",
-                    }}
-                  >
-                    {project.category}
-                  </span>
-                  <span className="font-[JetBrains_Mono] text-xs tracking-wider uppercase flex items-center gap-2"
+                {/* Terminal Titlebar */}
+                <div
+                  className="px-5 py-3 border-b flex items-center justify-between"
+                  style={{
+                    backgroundColor: "var(--subcard-bg)",
+                    borderColor: "var(--border-color)",
+                  }}
+                >
+                  {/* Left: Window Dots */}
+                  <div className="flex items-center gap-1.5 shrink-0 w-12">
+                    <span className="w-2.5 h-2.5 rounded-full bg-red-500/80 inline-block" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/80 inline-block" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-green-500/80 inline-block" />
+                  </div>
+
+                  {/* Center: Clean Slug Path Centered */}
+                  <span
+                    className="font-[JetBrains_Mono] text-xs font-semibold tracking-tight truncate text-center flex-grow"
                     style={{ color: "var(--text-muted)" }}
                   >
-                    <span
-                      className="w-2.5 h-2.5 rounded-full"
-                      style={{ backgroundColor: getStatusDot(project.status) }}
-                    />
-                    {project.status}
+                    {getProjectSlug(project.link, project.name)}
                   </span>
+
+                  {/* Right Spacer to preserve center balance */}
+                  <div className="w-12 shrink-0" aria-hidden="true" />
                 </div>
 
-                {/* Title */}
-                <h3 className="font-[Outfit] text-xl md:text-2xl font-semibold mb-3 transition-colors"
-                  style={{ color: "var(--text-primary)" }}
-                >
-                  {project.name}
-                </h3>
-
-                {/* Description */}
-                <p className="font-[Plus_Jakarta_Sans] text-base leading-relaxed mb-6 flex-grow"
-                  style={{ color: "var(--text-secondary)" }}
-                >
-                  {project.description}
-                </p>
-
-                {/* Tech Tags */}
-                <div className="flex flex-wrap gap-2 mb-6">
-                  {project.tags.map((tag, tagIndex) => (
-                    <motion.span
-                      key={tag}
-                      className="font-[JetBrains_Mono] text-[13px] px-3 py-1.5 border rounded"
-                      style={{
-                        color: "var(--accent)",
-                        backgroundColor: "rgba(30, 86, 205, 0.05)",
-                        borderColor: "rgba(30, 86, 205, 0.3)",
-                      }}
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: tagIndex * 0.05 }}
+                {/* Card Content Body */}
+                <div className="p-6 sm:p-7 flex flex-col flex-grow">
+                  {/* Title Linked Directly to GitHub with Hover Arrow (No Underline) */}
+                  <div className="mb-3">
+                    <a
+                      href={project.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group/title font-[Outfit] text-xl sm:text-2xl font-bold tracking-tight inline-flex items-center gap-2 no-underline transition-colors"
+                      style={{ color: "var(--text-primary)" }}
                     >
-                      {tag}
-                    </motion.span>
-                  ))}
-                </div>
+                      <span className="group-hover/title:text-[var(--accent)] transition-colors">
+                        {project.name}
+                      </span>
+                      <svg
+                        className="w-4 h-4 shrink-0 transition-transform group-hover/title:translate-x-0.5 group-hover/title:-translate-y-0.5"
+                        style={{ color: "var(--accent)" }}
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2.5}
+                          d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                        />
+                      </svg>
+                    </a>
+                  </div>
 
-                {/* Footer */}
-                <div className="mt-auto pt-5 border-t flex justify-end"
-                  style={{ borderColor: "var(--border-color)" }}
-                >
-                  <a
-                    href={project.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 font-[JetBrains_Mono] text-sm tracking-wider uppercase transition-colors"
-                    style={{ color: "var(--accent)" }}
+                  {/* Description */}
+                  <p
+                    className="font-[Plus_Jakarta_Sans] text-sm leading-relaxed mb-6 flex-grow"
+                    style={{ color: "var(--text-secondary)" }}
                   >
-                    View Source
-                    <svg
-                      className="w-5 h-5"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                      />
-                    </svg>
-                  </a>
+                    {project.description}
+                  </p>
+
+                  {/* Footer Dock: Tech Stack on Left, Category Tag on Right */}
+                  <div
+                    className="pt-4 border-t flex items-center justify-between gap-2.5 mt-auto"
+                    style={{ borderColor: "var(--border-color)" }}
+                  >
+                    {/* Left: Tech Stack Icons */}
+                    <div className="flex items-center gap-1.5 flex-wrap">
+                      {project.tags && project.tags.length > 0 ? (
+                        project.tags.map((tag) => (
+                          <div
+                            key={tag}
+                            className="tech-icon-box"
+                            data-tooltip={tag}
+                            style={{ color: "var(--text-primary)" }}
+                          >
+                            {PROJECT_TECH_LOGOS[tag] ? (
+                              <img
+                                src={PROJECT_TECH_LOGOS[tag]}
+                                alt={tag}
+                                className="w-4 h-4 icon-white object-contain"
+                              />
+                            ) : (
+                              <span className="text-[10px] font-mono font-bold">
+                                {tag.slice(0, 2)}
+                              </span>
+                            )}
+                          </div>
+                        ))
+                      ) : (
+                        <div />
+                      )}
+                    </div>
+
+                    {/* Right: Category Badge */}
+                    <div className="shrink-0">
+                      {renderCategoryBadge(project.category)}
+                    </div>
+                  </div>
                 </div>
               </motion.div>
             ))}

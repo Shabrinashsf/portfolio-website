@@ -148,22 +148,6 @@ export default function ExperienceTimeline() {
                   >
                     {item.role}
                   </h2>
-                  {item.status === "active" && (
-                    <span
-                      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-semibold border shrink-0"
-                      style={{
-                        background: "rgba(30, 86, 205, 0.1)",
-                        color: "var(--accent)",
-                        borderColor: "rgba(30, 86, 205, 0.3)",
-                      }}
-                    >
-                      <span
-                        className="w-2 h-2 rounded-full pulse-dot"
-                        style={{ backgroundColor: "var(--accent)" }}
-                      />
-                      Present
-                    </span>
-                  )}
                 </div>
 
                 {/* Line 2: Company Name [↗] · Period */}
