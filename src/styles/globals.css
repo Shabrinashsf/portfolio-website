@@ -372,4 +372,125 @@ button {
   color: var(--text-primary);
 }
 
+/* ==========================================================================
+   Tactile 3D Buttons (Neo-brutalist Pressed-down Effect)
+   ========================================================================== */
+.tactile-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #000000 !important;
+  box-shadow: 4px 4px 0px #000000 !important;
+  transform: translate(0, 0);
+  transition: transform 0.12s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.12s cubic-bezier(0.2, 0, 0, 1) !important;
+  cursor: pointer;
+  user-select: none;
+  text-decoration: none;
+}
+
+.tactile-btn:hover {
+  transform: translate(4px, 4px) !important;
+  box-shadow: 0px 0px 0px #000000 !important;
+}
+
+.tactile-btn:active {
+  transform: translate(4px, 4px) !important;
+  box-shadow: 0px 0px 0px #000000 !important;
+}
+
+.tactile-card {
+  display: flex;
+  flex-direction: column;
+  border: 2px solid #000000 !important;
+  box-shadow: 4px 4px 0px #000000 !important;
+  transform: translate(0, 0);
+  transition: transform 0.12s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.12s cubic-bezier(0.2, 0, 0, 1) !important;
+  user-select: text !important;
+  background-color: var(--bg-card);
+}
+
+.tactile-card:hover {
+  transform: translate(4px, 4px) !important;
+  box-shadow: 0px 0px 0px #000000 !important;
+}
+
+.tactile-card:active {
+  transform: translate(4px, 4px) !important;
+  box-shadow: 0px 0px 0px #000000 !important;
+}
+
+.tactile-btn-sm {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid #000000 !important;
+  box-shadow: 3px 3px 0px #000000 !important;
+  transform: translate(0, 0);
+  transition: transform 0.12s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.12s cubic-bezier(0.2, 0, 0, 1) !important;
+  cursor: pointer;
+  user-select: none;
+  text-decoration: none;
+}
+
+.tactile-btn-sm:hover {
+  transform: translate(3px, 3px) !important;
+  box-shadow: 0px 0px 0px #000000 !important;
+}
+
+.tactile-btn-sm:active {
+  transform: translate(3px, 3px) !important;
+  box-shadow: 0px 0px 0px #000000 !important;
+}
+
+.tactile-btn-sm.active-pressed {
+  transform: translate(3px, 3px) !important;
+  box-shadow: 0px 0px 0px #000000 !important;
+}
+
+/* ==========================================================================
+   Project Category Filter Tactile Buttons with Category Hover Colors
+   ========================================================================== */
+.tag-btn-all,
+.tag-btn-boilerplate,
+.tag-btn-api,
+.tag-btn-utility,
+.tag-btn-frontend {
+  background-color: var(--subcard-bg);
+  color: var(--text-primary);
+  transition: transform 0.12s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.12s cubic-bezier(0.2, 0, 0, 1), background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease !important;
+}
+
+/* Hover & Active States for Each Project Category */
+.tag-btn-all:hover,
+.tag-btn-all.active-filter {
+  background-color: #1E56CD !important;
+  color: #ffffff !important;
+}
+
+.tag-btn-boilerplate:hover,
+.tag-btn-boilerplate.active-filter {
+  background-color: #6366f1 !important;
+  color: #ffffff !important;
+}
+
+.tag-btn-api:hover,
+.tag-btn-api.active-filter {
+  background-color: #0ea5e9 !important;
+  color: #ffffff !important;
+}
+
+.tag-btn-utility:hover,
+.tag-btn-utility.active-filter {
+  background-color: #10b981 !important;
+  color: #ffffff !important;
+}
+
+.tag-btn-frontend:hover,
+.tag-btn-frontend.active-filter {
+  background-color: #f59e0b !important;
+  color: #131317 !important;
+}
+
+
+
 

@@ -84,7 +84,7 @@ const projects: Project[] = [
     description:
       "This app is a solver for the game Boggle, built using Next.js, TypeScript, and Tailwind CSS. The project provides a web interface for generating letter grids, finding all valid words, or checking a target word on the grid.",
     tags: ["NextJS", "Go", "TypeScript", "Tailwind CSS"],
-    link: "https://github.com/Shabrinashsf/PORTOFOLIO-RESTAPI",
+    link: "https://github.com/Shabrinashsf/Boogle-Solver",
   },
   {
     id: 8,
@@ -114,9 +114,7 @@ const PROJECT_TECH_LOGOS: Record<string, string> = {
   Laravel: "/img/laravel.svg",
   Docker: "/img/docker.svg",
   NextJS: "/img/nextdotjs.svg",
-  "Next.js": "/img/nextdotjs.svg",
   TypeScript: "/img/typescript.svg",
-  "Tailwind CSS": "/img/tailwindcss.svg",
   TailwindCSS: "/img/tailwindcss.svg",
   NestJS: "/img/nestjs.svg",
   TypeORM: "/img/typeorm.svg",
@@ -224,8 +222,20 @@ const cardVariants = {
   },
 };
 
+const FILTER_THEMES: Record<
+  FilterType,
+  { bg: string; text: string }
+> = {
+  All: { bg: "#1E56CD", text: "#ffffff" },
+  Boilerplate: { bg: "#6366f1", text: "#ffffff" },
+  API: { bg: "#0ea5e9", text: "#ffffff" },
+  Utility: { bg: "#10b981", text: "#ffffff" },
+  Frontend: { bg: "#f59e0b", text: "#131317" },
+};
+
 export default function ProjectsSection() {
   const [activeFilter, setActiveFilter] = useState<FilterType>("All");
+  const [hoveredFilter, setHoveredFilter] = useState<FilterType | null>(null);
 
   const filtered =
     activeFilter === "All"
@@ -256,33 +266,22 @@ export default function ProjectsSection() {
           >
             {filters.map((f) => {
               const isActive = activeFilter === f;
-              let activeClass = "";
-              switch (f) {
-                case "All":
-                  activeClass = "tag-all";
-                  break;
-                case "Boilerplate":
-                  activeClass = "tag-boilerplate";
-                  break;
-                case "API":
-                  activeClass = "tag-api";
-                  break;
-                case "Utility":
-                  activeClass = "tag-utility";
-                  break;
-                case "Frontend":
-                  activeClass = "tag-frontend";
-                  break;
-              }
+              const isHovered = hoveredFilter === f;
+              const isHighlighted = isActive || isHovered;
+              const theme = FILTER_THEMES[f];
 
               return (
                 <button
                   key={f}
                   onClick={() => setActiveFilter(f)}
-                  className={`inline-flex items-center gap-1.5 font-[JetBrains_Mono] text-xs sm:text-sm uppercase tracking-wider px-3.5 py-1.5 rounded border transition-all duration-200 cursor-pointer ${isActive
-                    ? `${activeClass} font-bold shadow-sm ring-1 ring-white/10`
-                    : "tag-btn-inactive font-medium"
+                  onMouseEnter={() => setHoveredFilter(f)}
+                  onMouseLeave={() => setHoveredFilter(null)}
+                  className={`tactile-btn-sm inline-flex items-center gap-1.5 font-[JetBrains_Mono] text-xs sm:text-sm uppercase tracking-wider px-3.5 py-1.5 rounded cursor-pointer transition-colors duration-150 ${isActive ? "font-bold active-pressed" : "font-medium"
                     }`}
+                  style={{
+                    backgroundColor: isHighlighted ? theme.bg : "var(--subcard-bg)",
+                    color: isHighlighted ? theme.text : "var(--text-primary)",
+                  }}
                 >
                   {getCategoryIcon(f, "w-3.5 h-3.5")}
                   {f}
@@ -309,110 +308,112 @@ export default function ProjectsSection() {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ duration: 0.4, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}
-                className="preview-card flex flex-col h-full overflow-hidden"
+                className="h-full"
               >
-                {/* Terminal Titlebar */}
-                <div
-                  className="px-5 py-3 border-b flex items-center justify-between"
-                  style={{
-                    backgroundColor: "var(--subcard-bg)",
-                    borderColor: "var(--border-color)",
-                  }}
-                >
-                  {/* Left: Window Dots */}
-                  <div className="flex items-center gap-1.5 shrink-0 w-12">
-                    <span className="w-2.5 h-2.5 rounded-full bg-red-500/80 inline-block" />
-                    <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/80 inline-block" />
-                    <span className="w-2.5 h-2.5 rounded-full bg-green-500/80 inline-block" />
-                  </div>
-
-                  {/* Center: Clean Slug Path Centered */}
-                  <span
-                    className="font-[JetBrains_Mono] text-xs font-semibold tracking-tight truncate text-center flex-grow"
-                    style={{ color: "var(--text-muted)" }}
-                  >
-                    {getProjectSlug(project.link, project.name)}
-                  </span>
-
-                  {/* Right Spacer to preserve center balance */}
-                  <div className="w-12 shrink-0" aria-hidden="true" />
-                </div>
-
-                {/* Card Content Body */}
-                <div className="p-6 sm:p-7 flex flex-col flex-grow">
-                  {/* Title Linked Directly to GitHub with Hover Arrow (No Underline) */}
-                  <div className="mb-3">
-                    <a
-                      href={project.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group/title font-[Outfit] text-xl sm:text-2xl font-bold tracking-tight inline-flex items-center gap-2 no-underline transition-colors"
-                      style={{ color: "var(--text-primary)" }}
-                    >
-                      <span className="group-hover/title:text-[var(--accent)] transition-colors">
-                        {project.name}
-                      </span>
-                      <svg
-                        className="w-4 h-4 shrink-0 transition-transform group-hover/title:translate-x-0.5 group-hover/title:-translate-y-0.5"
-                        style={{ color: "var(--accent)" }}
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2.5}
-                          d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                        />
-                      </svg>
-                    </a>
-                  </div>
-
-                  {/* Description */}
-                  <p
-                    className="font-[Plus_Jakarta_Sans] text-sm leading-relaxed mb-6 flex-grow"
-                    style={{ color: "var(--text-secondary)" }}
-                  >
-                    {project.description}
-                  </p>
-
-                  {/* Footer Dock: Tech Stack on Left, Category Tag on Right */}
+                <div className="tactile-card rounded-2xl flex flex-col h-full overflow-hidden">
+                  {/* Terminal Titlebar */}
                   <div
-                    className="pt-4 border-t flex items-center justify-between gap-2.5 mt-auto"
-                    style={{ borderColor: "var(--border-color)" }}
+                    className="px-5 py-3 border-b flex items-center justify-between"
+                    style={{
+                      backgroundColor: "var(--subcard-bg)",
+                      borderColor: "var(--border-color)",
+                    }}
                   >
-                    {/* Left: Tech Stack Icons */}
-                    <div className="flex items-center gap-1.5 flex-wrap">
-                      {project.tags && project.tags.length > 0 ? (
-                        project.tags.map((tag) => (
-                          <div
-                            key={tag}
-                            className="tech-icon-box"
-                            data-tooltip={tag}
-                            style={{ color: "var(--text-primary)" }}
-                          >
-                            {PROJECT_TECH_LOGOS[tag] ? (
-                              <img
-                                src={PROJECT_TECH_LOGOS[tag]}
-                                alt={tag}
-                                className="w-4 h-4 icon-white object-contain"
-                              />
-                            ) : (
-                              <span className="text-[10px] font-mono font-bold">
-                                {tag.slice(0, 2)}
-                              </span>
-                            )}
-                          </div>
-                        ))
-                      ) : (
-                        <div />
-                      )}
+                    {/* Left: Window Dots */}
+                    <div className="flex items-center gap-1.5 shrink-0 w-12">
+                      <span className="w-2.5 h-2.5 rounded-full bg-red-500/80 inline-block" />
+                      <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/80 inline-block" />
+                      <span className="w-2.5 h-2.5 rounded-full bg-green-500/80 inline-block" />
                     </div>
 
-                    {/* Right: Category Badge */}
-                    <div className="shrink-0">
-                      {renderCategoryBadge(project.category)}
+                    {/* Center: Clean Slug Path Centered */}
+                    <span
+                      className="font-[JetBrains_Mono] text-xs font-semibold tracking-tight truncate text-center flex-grow"
+                      style={{ color: "var(--text-muted)" }}
+                    >
+                      {getProjectSlug(project.link, project.name)}
+                    </span>
+
+                    {/* Right Spacer to preserve center balance */}
+                    <div className="w-12 shrink-0" aria-hidden="true" />
+                  </div>
+
+                  {/* Card Content Body */}
+                  <div className="p-6 sm:p-7 flex flex-col flex-grow">
+                    {/* Title Linked Directly to GitHub with Hover Arrow (No Underline) */}
+                    <div className="mb-3">
+                      <a
+                        href={project.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group/title font-[Outfit] text-xl sm:text-2xl font-bold tracking-tight inline-flex items-center gap-2 no-underline transition-colors"
+                        style={{ color: "var(--text-primary)" }}
+                      >
+                        <span className="group-hover/title:text-[var(--accent)] transition-colors">
+                          {project.name}
+                        </span>
+                        <svg
+                          className="w-4 h-4 shrink-0 transition-transform group-hover/title:translate-x-0.5 group-hover/title:-translate-y-0.5"
+                          style={{ color: "var(--accent)" }}
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2.5}
+                            d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                          />
+                        </svg>
+                      </a>
+                    </div>
+
+                    {/* Description */}
+                    <p
+                      className="font-[Plus_Jakarta_Sans] text-sm leading-relaxed mb-6 flex-grow"
+                      style={{ color: "var(--text-secondary)" }}
+                    >
+                      {project.description}
+                    </p>
+
+                    {/* Footer Dock: Tech Stack on Left, Category Tag on Right */}
+                    <div
+                      className="pt-4 border-t flex items-center justify-between gap-2.5 mt-auto"
+                      style={{ borderColor: "var(--border-color)" }}
+                    >
+                      {/* Left: Tech Stack Icons */}
+                      <div className="flex items-center gap-1.5 flex-wrap">
+                        {project.tags && project.tags.length > 0 ? (
+                          project.tags.map((tag) => (
+                            <div
+                              key={tag}
+                              className="tech-icon-box"
+                              data-tooltip={tag}
+                              style={{ color: "var(--text-primary)" }}
+                            >
+                              {PROJECT_TECH_LOGOS[tag] ? (
+                                <img
+                                  src={PROJECT_TECH_LOGOS[tag]}
+                                  alt={tag}
+                                  className="w-4 h-4 icon-white object-contain"
+                                />
+                              ) : (
+                                <span className="text-[10px] font-mono font-bold">
+                                  {tag.slice(0, 2)}
+                                </span>
+                              )}
+                            </div>
+                          ))
+                        ) : (
+                          <div />
+                        )}
+                      </div>
+
+                      {/* Right: Category Badge */}
+                      <div className="shrink-0">
+                        {renderCategoryBadge(project.category)}
+                      </div>
                     </div>
                   </div>
                 </div>

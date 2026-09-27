@@ -13,7 +13,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <AudioProvider>
       <ThemeProvider>
-        <div className={`flex flex-col min-h-screen ${['/contact', '/404'].includes(router.pathname) ? 'lg:h-screen lg:overflow-hidden' : ''}`}>
+        <div className={`flex flex-col min-h-screen ${['/contact', '/404', '/about'].includes(router.pathname) ? 'lg:h-screen lg:overflow-hidden' : ''}`}>
           <ThemeTransition />
           <Navbar />
           <main className="pt-16 flex-grow flex flex-col relative">

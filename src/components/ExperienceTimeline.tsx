@@ -139,7 +139,7 @@ export default function ExperienceTimeline() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}
             >
-              <div className="preview-card p-6 sm:p-8">
+              <div className="tactile-card rounded-2xl p-6 sm:p-8">
                 {/* Top Row: Role Title & Active Status */}
                 <div className="flex items-center justify-between gap-3 mb-1.5">
                   <h2
