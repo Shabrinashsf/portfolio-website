@@ -45,9 +45,9 @@ const ContactIcon = ({ className }: { className?: string }) => (
 
 const navLinks = [
   { href: "/", label: "Home", icon: HomeIcon },
-  { href: "/about", label: "About", icon: AboutIcon },
-  { href: "/work", label: "Work", icon: WorkIcon },
+  { href: "/#work", label: "Work", icon: WorkIcon },
   { href: "/project", label: "Project", icon: ProjectIcon },
+  { href: "/about", label: "About", icon: AboutIcon },
   { href: "/contact", label: "Contact", icon: ContactIcon },
 ];
 
@@ -66,6 +66,9 @@ export default function Navbar() {
     opacity: 0,
   });
   const isInitialRender = useRef(true);
+  const isClickScrolling = useRef(false);
+  const clickScrollTimeout = useRef<NodeJS.Timeout | null>(null);
+  const activeHrefRef = useRef(activeHref);
 
   const updatePill = (targetHref: string = router.pathname) => {
     const activeIndex = navLinks.findIndex((link) => link.href === targetHref);
@@ -82,35 +85,104 @@ export default function Navbar() {
   };
 
   useEffect(() => {
-    setActiveHref(router.pathname);
-    updatePill(router.pathname);
+    activeHrefRef.current = activeHref;
+  }, [activeHref]);
 
+  useEffect(() => {
+    if (router.pathname !== "/") {
+      activeHrefRef.current = router.pathname;
+      setActiveHref(router.pathname);
+      updatePill(router.pathname);
+      return;
+    }
+
+    const checkScrollSection = () => {
+      if (isClickScrolling.current) return;
+
+      const workEl = document.getElementById("work");
+      if (workEl) {
+        const rect = workEl.getBoundingClientRect();
+        const nextHref = rect.top <= 280 ? "/#work" : "/";
+        if (nextHref !== activeHrefRef.current) {
+          activeHrefRef.current = nextHref;
+          setActiveHref(nextHref);
+          updatePill(nextHref);
+        }
+      } else if (activeHrefRef.current !== "/") {
+        activeHrefRef.current = "/";
+        setActiveHref("/");
+        updatePill("/");
+      }
+    };
+
+    checkScrollSection();
+    window.addEventListener("scroll", checkScrollSection, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", checkScrollSection);
+      if (clickScrollTimeout.current) clearTimeout(clickScrollTimeout.current);
+    };
+  }, [router.pathname]);
+
+  useEffect(() => {
     if (typeof document !== "undefined" && document.fonts) {
-      document.fonts.ready.then(() => updatePill(router.pathname));
+      document.fonts.ready.then(() => updatePill(activeHref));
     }
 
     const timer = setTimeout(() => {
       isInitialRender.current = false;
     }, 100);
 
-    const handleResize = () => updatePill(router.pathname);
+    const handleResize = () => updatePill(activeHref);
     window.addEventListener("resize", handleResize);
 
     return () => {
       clearTimeout(timer);
       window.removeEventListener("resize", handleResize);
     };
-  }, [router.pathname]);
+  }, [activeHref]);
 
-  const handleNavClick = (href: string, index: number) => {
-    setActiveHref(href);
-    if (index !== -1 && linkRefs.current[index] && containerRef.current) {
-      const linkEl = linkRefs.current[index]!;
-      setPillStyle({
-        left: linkEl.offsetLeft,
-        width: linkEl.offsetWidth,
-        opacity: 1,
-      });
+  const handleNavClick = (e: React.MouseEvent, href: string, index: number) => {
+    isClickScrolling.current = true;
+    if (clickScrollTimeout.current) clearTimeout(clickScrollTimeout.current);
+    clickScrollTimeout.current = setTimeout(() => {
+      isClickScrolling.current = false;
+    }, 1000);
+
+    if (href === "/#work") {
+      if (router.pathname === "/") {
+        e.preventDefault();
+        const el = document.getElementById("work");
+        if (el) {
+          const y = el.getBoundingClientRect().top + window.pageYOffset - 64;
+          window.scrollTo({ top: y, behavior: "smooth" });
+          window.history.pushState(null, "", "/#work");
+        }
+      }
+      activeHrefRef.current = "/#work";
+      setActiveHref("/#work");
+      updatePill("/#work");
+    } else if (href === "/") {
+      if (router.pathname === "/") {
+        if (window.location.hash) {
+          e.preventDefault();
+          window.scrollTo({ top: 0, behavior: "smooth" });
+          window.history.pushState(null, "", "/");
+        }
+      }
+      activeHrefRef.current = "/";
+      setActiveHref("/");
+      updatePill("/");
+    } else {
+      activeHrefRef.current = href;
+      setActiveHref(href);
+      if (index !== -1 && linkRefs.current[index] && containerRef.current) {
+        const linkEl = linkRefs.current[index]!;
+        setPillStyle({
+          left: linkEl.offsetLeft,
+          width: linkEl.offsetWidth,
+          opacity: 1,
+        });
+      }
     }
   };
 
@@ -176,7 +248,7 @@ export default function Navbar() {
               transition={
                 isInitialRender.current
                   ? { duration: 0 }
-                  : { type: "spring", stiffness: 350, damping: 28 }
+                  : { type: "spring", stiffness: 420, damping: 30 }
               }
             />
           )}
@@ -191,7 +263,7 @@ export default function Navbar() {
                   linkRefs.current[index] = el;
                 }}
                 href={link.href}
-                onClick={() => handleNavClick(link.href, index)}
+                onClick={(e) => handleNavClick(e, link.href, index)}
                 className="group relative flex items-center justify-center gap-1.5 px-2.5 py-1.5 rounded-xl text-xs font-semibold tracking-wide uppercase transition-colors duration-200 z-10"
                 style={{
                   color: isActive ? "#FDF8F2" : "var(--text-secondary)",
@@ -277,7 +349,7 @@ export default function Navbar() {
             }}
           >
             {navLinks.map((link, index) => {
-              const isActive = router.pathname === link.href;
+              const isActive = activeHref === link.href;
               const Icon = link.icon;
               return (
                 <motion.div
@@ -288,7 +360,28 @@ export default function Navbar() {
                 >
                   <Link
                     href={link.href}
-                    onClick={() => setMobileMenuOpen(false)}
+                    onClick={(e) => {
+                      setMobileMenuOpen(false);
+                      if (link.href === "/#work" && router.pathname === "/") {
+                        e.preventDefault();
+                        const el = document.getElementById("work");
+                        if (el) {
+                          const y = el.getBoundingClientRect().top + window.pageYOffset - 64;
+                          window.scrollTo({ top: y, behavior: "smooth" });
+                          window.history.pushState(null, "", "/#work");
+                        }
+                        setActiveHref("/#work");
+                      } else if (link.href === "/" && router.pathname === "/") {
+                        if (window.location.hash) {
+                          e.preventDefault();
+                          window.scrollTo({ top: 0, behavior: "smooth" });
+                          window.history.pushState(null, "", "/");
+                        }
+                        setActiveHref("/");
+                      } else {
+                        setActiveHref(link.href);
+                      }
+                    }}
                     className="flex items-center gap-2.5 px-4 py-2.5 my-1 rounded-xl font-[Plus_Jakarta_Sans] text-sm font-semibold tracking-wider uppercase transition-colors"
                     style={{
                       backgroundColor: isActive ? "rgba(30, 86, 205, 0.15)" : "transparent",

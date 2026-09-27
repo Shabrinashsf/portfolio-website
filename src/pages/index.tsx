@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
@@ -9,6 +10,7 @@ import {
 } from "@/components/animations";
 import GridBackground from "@/components/GridBackground";
 import ArcanaSection from "@/components/ArcanaSection";
+import ExperienceTimeline from "@/components/ExperienceTimeline";
 
 const techStack = ["Go", "Gin", "PHP", "Laravel", "NextJS", "TypeScript", "Tailwind CSS"];
 
@@ -33,6 +35,72 @@ const itemVariants: Variants = {
 };
 
 export default function Home() {
+  const [workTopSpacing, setWorkTopSpacing] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.location.hash === "#work") {
+      const el = document.getElementById("work");
+      if (el) {
+        setTimeout(() => {
+          el.scrollIntoView({ behavior: "smooth" });
+        }, 150);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    const updateSpacing = () => {
+      const homeEl = document.getElementById("hero-content");
+      const arcanaHeadingEl = document.querySelector("#shab-arcana h2");
+      const arcanaSectionEl = document.getElementById("shab-arcana");
+      const cardElements = document.querySelectorAll(".arcana-card-item");
+
+      if (homeEl && arcanaHeadingEl && arcanaSectionEl && cardElements.length > 0) {
+        const homeRect = homeEl.getBoundingClientRect();
+        const arcanaHeadingRect = arcanaHeadingEl.getBoundingClientRect();
+        const arcanaSectionRect = arcanaSectionEl.getBoundingClientRect();
+
+        // Distance from bottom of Home content to top of Arcana heading:
+        const homeToArcanaHeading = arcanaHeadingRect.top - homeRect.bottom;
+
+        // Find the lowest bottom edge of all Arcana cards:
+        let maxCardBottom = 0;
+        cardElements.forEach((el) => {
+          const b = el.getBoundingClientRect().bottom;
+          if (b > maxCardBottom) maxCardBottom = b;
+        });
+
+        if (maxCardBottom > 0) {
+          // Distance from lowest card bottom to the bottom boundary of ArcanaSection:
+          const cardsToArcanaBottom = arcanaSectionRect.bottom - maxCardBottom;
+
+          // Inside ExperienceTimeline, distance from section top to "Working Experience." text is:
+          // container py-12/py-16 (64px md / 48px mobile) + heading pt-6/pt-10 (40px md / 24px mobile) = 104px (md+) / 72px (mobile)
+          const workInternalTopGap = window.innerWidth >= 768 ? 104 : 72;
+
+          // Equalize: (cardsToArcanaBottom) + (workSpacer) + (workInternalTopGap) = homeToArcanaHeading
+          const neededSpacer = Math.max(0, Math.round(homeToArcanaHeading - cardsToArcanaBottom - workInternalTopGap));
+          setWorkTopSpacing(neededSpacer);
+        }
+      }
+    };
+
+    updateSpacing();
+
+    window.addEventListener("resize", updateSpacing);
+    if (typeof document !== "undefined" && document.fonts) {
+      document.fonts.ready.then(updateSpacing);
+    }
+    const t1 = setTimeout(updateSpacing, 150);
+    const t2 = setTimeout(updateSpacing, 600);
+
+    return () => {
+      window.removeEventListener("resize", updateSpacing);
+      clearTimeout(t1);
+      clearTimeout(t2);
+    };
+  }, []);
+
   return (
     <>
       <Head>
@@ -49,7 +117,7 @@ export default function Home() {
       >
         <GridBackground />
         <div className="flex flex-col justify-center px-8 md:px-16 max-w-7xl mx-auto w-full relative z-10 py-8 lg:py-0 min-h-[calc(100vh-4rem)] lg:h-[calc(100vh-4rem)]">
-          <section className="w-full my-auto">
+          <section id="hero-content" className="w-full my-auto">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
               {/* Left Side: Typography and Bio */}
               <motion.div
@@ -347,6 +415,14 @@ export default function Home() {
 
         {/* Pick Shab Arcana (Persona 3 Edition) */}
         <ArcanaSection />
+
+        {/* Dynamic spacer to equalize distance between Arcana cards and Work heading, placed outside #work */}
+        {workTopSpacing !== null && workTopSpacing > 0 && (
+          <div style={{ height: `${workTopSpacing}px` }} aria-hidden="true" />
+        )}
+
+        {/* Work Experience Section */}
+        <ExperienceTimeline />
       </div>
     </>
   );

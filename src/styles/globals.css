@@ -3,6 +3,7 @@
 @theme {
   --font-outfit: "Outfit", sans-serif;
   --font-jakarta: "Plus Jakarta Sans", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
 }
 
 html {
@@ -34,6 +35,10 @@ body {
   --accent: #1E56CD;
   --accent-light: #a8c7fa;
   --image-invert: invert(1);
+  --hover-border: #131317;
+  --hover-border: rgba(19, 19, 23, 0.28);
+  --subcard-bg: #f5f0e8;
+  --icon-box-bg: #eae4da;
 }
 
 .dark {
@@ -51,6 +56,10 @@ body {
   --accent: #1E56CD;
   --accent-light: #a8c7fa;
   --image-invert: invert(0);
+  --hover-border: #ffffff;
+  --hover-border: rgba(255, 255, 255, 0.35);
+  --subcard-bg: #131317;
+  --icon-box-bg: #1b1b1f;
 }
 
 /* Glass navigation */
@@ -216,4 +225,79 @@ button {
   );
   background-size: 200% 100%;
   animation: shimmer 2s infinite;
+}
+
+/* ==========================================================================
+   Work Experience Section - Exact Preview Match (.preview-card & .subcard-box)
+   ========================================================================== */
+.preview-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 1rem;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.preview-card:hover {
+  border-color: var(--hover-border) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.12);
+}
+
+.subcard-box {
+  background-color: var(--subcard-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 0.75rem;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tech-icon-box {
+  width: 1.875rem;
+  height: 1.875rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--border-color);
+  background-color: var(--icon-box-bg);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  cursor: pointer;
+}
+
+.tech-icon-box:hover {
+  transform: scale(1.12);
+}
+
+.tech-icon-box:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: -1.75rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #000000;
+  color: #ffffff;
+  font-size: 0.6875rem;
+  font-family: var(--font-mono, "JetBrains Mono", monospace);
+  padding: 0.2rem 0.45rem;
+  border-radius: 0.25rem;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 50;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.pulse-dot {
+  animation: pulseAnimation 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulseAnimation {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.3;
+    transform: scale(1.25);
+  }
 }

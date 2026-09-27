@@ -15,6 +15,9 @@ const darkVars = `
     --grid-color: rgba(253, 248, 242, 0.07);
     --accent: #1E56CD;
     --accent-light: #a8c7fa;
+    --hover-border: rgba(255, 255, 255, 0.35);
+    --subcard-bg: #131317;
+    --icon-box-bg: #1b1b1f;
   }
 `;
 
@@ -28,7 +31,7 @@ export default function Document() {
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600;1,700;1,800&display=swap"
+          href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600;1,700;1,800&display=swap"
           rel="stylesheet"
         />
         <style dangerouslySetInnerHTML={{ __html: darkVars }} />

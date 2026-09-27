@@ -1072,6 +1072,7 @@ export default function ArcanaSection() {
 
         {/* Fan Deck Arena (Lowered DOWN) */}
         <div
+          id="arcana-deck-arena"
           className="relative w-full max-w-5xl flex items-center justify-center transition-[height,transform] duration-300 lg:translate-y-6"
           style={{ height: cardConfig.arenaHeight }}
         >
@@ -1220,7 +1221,7 @@ export default function ArcanaSection() {
               return (
                 <motion.div
                   key={card.id}
-                  className="absolute cursor-pointer will-change-transform"
+                  className="arcana-card-item absolute cursor-pointer will-change-transform"
                   style={{
                     width: cardConfig.width,
                     height: cardConfig.height,
