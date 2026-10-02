@@ -20,7 +20,8 @@ export interface ExperienceItem {
   status: "active" | "completed";
   role: string;
   location: string;
-  description: string;
+  description?: string;
+  bullets?: string[];
   tags?: string[];
   products?: ProductItem[];
 }
@@ -46,54 +47,46 @@ const experiences: ExperienceItem[] = [
   {
     id: 1,
     type: "work",
-    org: "Direktorat Pengembangan dan Sistem Informasi ITS",
-    url: "https://www.its.ac.id/dptsi/",
-    period: "June 2026 - Present",
-    status: "active",
+    org: "ADVISE",
+    period: "July 2026 – November 2026",
+    status: "completed",
     role: "Fullstack Developer",
     location: "Surabaya, Indonesia",
-    // TODO: Add DPSI ITS organizational description
-    description: "",
-    products: [
-      {
-        name: "Tracer",
-        url: "https://careers.its.ac.id/tracer/login",
-        // TODO: Add Tracer product description
-        description: "",
-        tags: ["PHP", "Laravel", "PostgreSQL", "Docker", "NGINX"],
-      },
-      {
-        name: "Bursa Karir ITS (BKI)",
-        url: "https://bki.its.ac.id/",
-        // TODO: Add BKI (Bursa Karir ITS) product description
-        description: "",
-        tags: ["PHP", "Laravel", "MySQL", "Three.js", "Docker", "NGINX"],
-      },
+    bullets: [
+      "Built the web interface of a DAST (Dynamic Application Security Testing for vulnerability scanning) platform using Laravel (Onion Architecture), InertiaJS, and React, so security operators can review and act on findings.",
+      "Aligned API contracts with the crawler team; modeled workflows after Invicti and Burp Suite.",
     ],
+    tags: ["PHP", "Laravel", "Inertia", "React"],
   },
   {
     id: 2,
     type: "work",
-    org: "ADVISE",
-    period: "July 2026 - November 2026",
+    org: "Direktorat Pengembangan dan Sistem Informasi ITS",
+    url: "https://www.its.ac.id/dptsi/",
+    period: "June 2026 – November 2026",
     status: "completed",
     role: "Fullstack Developer",
     location: "Surabaya, Indonesia",
-    description:
-      "A Dynamic Application Security Testing (DAST) platform capable of automatically detecting security vulnerabilities in web-based applications with seamless CI/CD integration. Features an Agentic AI assistant to guide and streamline target site configurations for operators.",
-    tags: ["PHP", "Laravel", "Inertia", "React"],
+    bullets: [
+      "Led the refactor of the Tracer Study platform from a Laravel 10 monolith to a modular monolith (DDD + CQRS, Laravel 12): 7 modules plus dynamic survey branching.",
+      "Built the Bursa Karir ITS virtual job fair: a 3D expo hall (Three.js, optimized GLB loader) and an admin CMS (Tailwind CSS) for event and booth management.",
+      "Migrated media to Cloudflare R2 with an encrypted proxy and WebP conversion; set up per-branch CI/CD deployment and docker containerization.",
+    ],
+    tags: ["PHP", "Laravel", "PostgreSQL", "MySQL", "Three.js", "Docker", "NGINX"],
   },
   {
     id: 3,
     type: "work",
     org: "Dikmenum Dinas Pendidikan Jawa Timur",
     url: "https://spmbjatim.net/",
-    period: "January 2026 - June 2026",
+    period: "January 2026 – June 2026",
     status: "completed",
-    role: "Backend Developer",
+    role: "Junior Backend Developer",
     location: "Surabaya, Indonesia",
-    // TODO: Add Dikmenum (SPMB Jawa Timur 2026) description
-    description: "",
+    bullets: [
+      "Supported SPMB Jawa Timur, a provincial student registration system with 500,000+ users, on the Internal Admin and School Portal modules, handling data engineering tasks and ad-hoc data extraction via complex MariaDB queries based on stakeholder requests.",
+      "Root-caused bugs in legacy PHP/Laravel codebase, adapted registration and verification flows to annual policy changes, and selective refactoring to Golang where needed.",
+    ],
     tags: ["PHP", "Laravel", "Go", "MariaDB"],
   },
   {
@@ -101,12 +94,14 @@ const experiences: ExperienceItem[] = [
     type: "work",
     org: "Jago Teknik",
     url: "https://jagoteknik.id/",
-    period: "Feb 2026 — Maret 2026",
+    period: "February 2026 – March 2026",
     status: "completed",
     role: "Backend Developer",
     location: "Surabaya, Indonesia · Remote",
-    description:
-      "Designed a web-based learning platform architecture with user authentication, personalized dashboards, class management, quizzes, and progress tracking. Implemented role-based access control for admins, tutors, and members.",
+    bullets: [
+      "Co-designed the database schema and RBAC for a learning platform, cutting estimated development time by 50%.",
+      "Built Golang (Gin, Gorm) APIs with PostgreSQL for authentication, dashboards, data export, and tutor performance monitoring, with API docs and ERD.",
+    ],
     tags: ["Go", "Gin", "PostgreSQL"],
   },
 ];
@@ -199,15 +194,27 @@ export default function ExperienceTimeline() {
                   {item.location}
                 </p>
 
-                {/* Line 4: Description (rendered only if present) */}
-                {item.description && item.description.trim() !== "" && (
+                {/* Line 4: Bullets list OR Description */}
+                {item.bullets && item.bullets.length > 0 ? (
+                  <ul className="space-y-2.5 mb-5 font-[Plus_Jakarta_Sans] text-sm sm:text-base leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+                    {item.bullets.map((bullet, idx) => (
+                      <li key={idx} className="flex items-start gap-2.5">
+                        <span
+                          className="inline-block w-1.5 h-1.5 rounded-full mt-2 shrink-0"
+                          style={{ backgroundColor: "var(--accent)" }}
+                        />
+                        <span>{bullet}</span>
+                      </li>
+                    ))}
+                  </ul>
+                ) : item.description && item.description.trim() !== "" ? (
                   <p
                     className="font-[Plus_Jakarta_Sans] text-sm sm:text-base leading-relaxed mb-4"
                     style={{ color: "var(--text-secondary)" }}
                   >
                     {item.description}
                   </p>
-                )}
+                ) : null}
 
                 {/* Line 5: Modular Products Grid (DPSI ITS) OR Standard Tech Dock */}
                 {item.products && item.products.length > 0 ? (
