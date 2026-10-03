@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
 import { motion, AnimatePresence, TargetAndTransition, Transition } from "framer-motion";
+import { TECH_LOGOS } from "@/data/tech-logos";
+import { SEED_TECHSTACKS, SEED_EXPERIENCES } from "@/data/seed";
 
 // Types
 export interface ArcanaCardData {
@@ -20,6 +22,21 @@ export interface ArcanaCardData {
   skills: { name: string; category: string }[];
   stats: { label: string; value: number }[];
   disciplines: string[];
+}
+
+export interface TechStackItem {
+  name: string;
+  icon: string;
+  size?: string;
+}
+
+export interface VolunteerItem {
+  id: number;
+  org: string;
+  period: string;
+  role: string;
+  description: string;
+  tags: string[];
 }
 
 // 3 Persona-themed Arcana Cards (Must always be odd number)
@@ -140,215 +157,28 @@ export const ARCANA_CARDS: ArcanaCardData[] = [
   },
 ];
 
-interface TechStackItem {
-  name: string;
-  icon: string;
-  size?: string;
-}
+const ARCANA_TECH_STACK: Record<string, Record<string, TechStackItem[]>> = SEED_TECHSTACKS.reduce<
+  Record<string, Record<string, TechStackItem[]>>
+>((acc, t) => {
+  const byArcana = (acc[t.arcana] ??= {});
+  (byArcana[t.category] ??= []).push({ name: t.name, icon: t.icon, size: t.size });
+  return acc;
+}, {});
 
-interface VolunteerItem {
-  id: number;
-  org: string;
-  period: string;
-  role: string;
-  description: string;
-  tags: string[];
-}
+const ARCANA_VOLUNTEER_EXPERIENCES: Record<string, VolunteerItem[]> = SEED_EXPERIENCES.reduce<
+  Record<string, VolunteerItem[]>
+>((acc, e, i) => {
+  (acc[e.arcana] ??= []).push({
+    id: -(i + 1),
+    org: e.org,
+    period: e.period,
+    role: e.role,
+    description: e.description,
+    tags: e.tags,
+  });
+  return acc;
+}, {});
 
-const ARCANA_TECH_STACK: Record<string, Record<string, TechStackItem[]>> = {
-  backend: {
-    "Programming Language": [
-      { name: "Go", icon: "/img/go.svg", size: "w-8 h-8" },
-      { name: "PHP", icon: "/img/php.svg", size: "w-7 h-7" },
-      { name: "TypeScript", icon: "/img/typescript.svg", size: "w-7 h-7" },
-      { name: "Python", icon: "/img/python.svg", size: "w-7 h-7" },
-    ],
-    "Framework & Library": [
-      { name: "Gin", icon: "/img/gin.svg", size: "w-7 h-7" },
-      { name: "Fiber", icon: "/img/fiber.svg", size: "w-8 h-8" },
-      { name: "Laravel", icon: "/img/laravel.svg", size: "w-7 h-7" },
-      { name: "NestJS", icon: "/img/nestjs.svg", size: "w-7 h-7" },
-      { name: "ExpressJS", icon: "/img/express.svg", size: "w-7 h-7" },
-    ],
-    "Database": [
-      { name: "PostgreSQL", icon: "/img/postgresql.svg", size: "w-7 h-7" },
-      { name: "MySQL", icon: "/img/mysql.svg", size: "w-7 h-7" },
-      { name: "MariaDB", icon: "/img/mariadb.svg", size: "w-7 h-7" },
-      { name: "Redis", icon: "/img/redis.svg", size: "w-7 h-7" },
-    ],
-    "Tools": [
-      { name: "Git", icon: "/img/git.svg", size: "w-7 h-7" },
-      { name: "GitHub", icon: "/img/github.svg", size: "w-7 h-7" },
-      { name: "Bruno", icon: "/img/bruno.svg", size: "w-7 h-7" },
-      { name: "Postman", icon: "/img/postman.svg", size: "w-7 h-7" },
-      { name: "Hoppscotch", icon: "/img/hoppscotch.svg", size: "w-7 h-7" },
-    ],
-  },
-  frontend: {
-    "Programming Language": [
-      { name: "TypeScript", icon: "/img/typescript.svg", size: "w-7 h-7" },
-    ],
-    "Framework & Library": [
-      { name: "Laravel", icon: "/img/laravel.svg", size: "w-7 h-7" },
-      { name: "Next.js", icon: "/img/nextdotjs.svg", size: "w-7 h-7" },
-      { name: "React", icon: "/img/react.svg", size: "w-7 h-7" },
-      { name: "Tailwind", icon: "/img/tailwindcss.svg", size: "w-7 h-7" },
-    ],
-    "Tools": [
-      { name: "Git", icon: "/img/git.svg", size: "w-7 h-7" },
-      { name: "GitHub", icon: "/img/github.svg", size: "w-7 h-7" },
-    ],
-  },
-  devops: {
-    "DevOps & Infrastructure": [
-      { name: "Docker", icon: "/img/docker.svg", size: "w-7 h-7" },
-      { name: "NGINX", icon: "/img/nginx.svg", size: "w-7 h-7" },
-      { name: "Git", icon: "/img/git.svg", size: "w-7 h-7" },
-      { name: "GitHub", icon: "/img/github.svg", size: "w-7 h-7" },
-      { name: "Grafana", icon: "/img/grafana.svg", size: "w-7 h-7" },
-      { name: "Cloudflare", icon: "/img/cloudflare.svg", size: "w-7 h-7" },
-      { name: "Linux", icon: "/img/linux.svg", size: "w-7 h-7" },
-    ],
-  },
-};
-
-const TECH_LOGOS: Record<string, string> = {
-  "Go": "/img/go.svg",
-  "Golang": "/img/go.svg",
-  "Gin": "/img/gin.svg",
-  "Fiber": "/img/fiber.svg",
-  "Laravel": "/img/laravel.svg",
-  "PHP": "/img/php.svg",
-  "PostgreSQL": "/img/postgresql.svg",
-  "MySQL": "/img/mysql.svg",
-  "MariaDB": "/img/mariadb.svg",
-  "Redis": "/img/redis.svg",
-  "TypeScript": "/img/typescript.svg",
-  "Python": "/img/python.svg",
-  "Next.js": "/img/nextdotjs.svg",
-  "NextJS": "/img/nextdotjs.svg",
-  "React": "/img/react.svg",
-  "Tailwind": "/img/tailwindcss.svg",
-  "Docker": "/img/docker.svg",
-  "NGINX": "/img/nginx.svg",
-  "Git": "/img/git.svg",
-  "GitHub": "/img/github.svg",
-  "Bruno": "/img/bruno.svg",
-  "Postman": "/img/postman.svg",
-  "Hoppscotch": "/img/hoppscotch.svg",
-  "Hopscotch": "/img/hoppscotch.svg",
-  "Grafana": "/img/grafana.svg",
-  "Cloudflare": "/img/cloudflare.svg",
-  "Linux": "/img/linux.svg",
-};
-
-const ARCANA_VOLUNTEER_EXPERIENCES: Record<string, VolunteerItem[]> = {
-  frontend: [
-    {
-      id: 1,
-      org: "Schematics 2026",
-      period: "Maret 2026 — Now",
-      role: "Technical Project Manager",
-      description:
-        "Schematics is an annual event organized by students of the Informatics Engineering Department at Institut Teknologi Sepuluh Nopember.",
-      tags: ["TypeScript", "Next.js", "React", "Tailwind"],
-    },
-  ],
-  backend: [
-    {
-      id: 1,
-      org: "Schematics 2026",
-      period: "Maret 2026 — Now",
-      role: "Technical Project Manager",
-      description:
-        "Schematics is an annual event organized by students of the Informatics Engineering Department at Institut Teknologi Sepuluh Nopember.",
-      tags: ["Go", "Gin", "PostgreSQL", "Bruno"],
-    },
-    {
-      id: 2,
-      org: "TEDxITS 2026",
-      period: "Jan 2026 - May 2026",
-      role: "Manager Backend",
-      description:
-        "TEDxITS is an annual event that provides a platform for the community, especially those within the Institut Teknologi Sepuluh Nopember environment, to share their compelling ideas.",
-      tags: ["Go", "Fiber", "PostgreSQL", "Bruno"],
-    },
-    {
-      id: 3,
-      org: "Futurest 2026",
-      period: "Feb 2026 - Apr 2026",
-      role: "Senior Backend Developer",
-      description:
-        "Futurest (Future Energy Summit) is the annual flagship event of the Society of Renewable Energy (SRE) ITS.",
-      tags: ["Go", "Gin", "PostgreSQL", "Bruno"],
-    },
-    {
-      id: 4,
-      org: "Ini Lho ITS! 2026",
-      period: "Feb 2026 - Apr 2026",
-      role: "Manager Backend",
-      description:
-        "Ini Lho ITS! is an annual event that introduces Institut Teknologi Sepuluh Nopember to the wider public especially high school and vocational school students.",
-      tags: ["Go", "Gin", "PostgreSQL", "Hoppscotch"],
-    },
-    {
-      id: 5,
-      org: "180DC ITS",
-      period: "Oct 2025 — Dec 2025",
-      role: "Junior Backend Developer",
-      description:
-        "180dc ITS is a global consultancy organization that offer high-quality consulting services to nonprofits, social enterprises, and socially conscious organizations.",
-      tags: ["Go", "Gin", "PostgreSQL", "Hoppscotch"],
-    },
-    {
-      id: 6,
-      org: "Schematics 2025",
-      period: "Sep 2025 — Oct 2025",
-      role: "Vice Director 2 — WebDev",
-      description:
-        "Schematics is an annual event organized by students of the Informatics Engineering Department at Institut Teknologi Sepuluh Nopember.",
-      tags: ["Go", "Gin", "PostgreSQL", "Postman"],
-    },
-    {
-      id: 7,
-      org: "TEDxITS 2025",
-      period: "Aug 2025 — Sep 2025",
-      role: "Junior Backend Developer",
-      description:
-        "TEDxITS is an annual event that provides a platform for the community, especially those within the Institut Teknologi Sepuluh Nopember environment, to share their compelling ideas.",
-      tags: ["Go", "Gin", "PostgreSQL", "Postman"],
-    },
-    {
-      id: 8,
-      org: "Ini Lho ITS! 2025",
-      period: "Jun 2025 — Aug 2025",
-      role: "Junior Backend Developer",
-      description:
-        "Ini Lho ITS! is an annual event that introduces Institut Teknologi Sepuluh Nopember to the wider public especially high school and vocational school students.",
-      tags: ["Go", "Gin", "PostgreSQL", "Hoppscotch"],
-    },
-  ],
-  devops: [
-    {
-      id: 1,
-      org: "Schematics 2026",
-      period: "Maret 2026 — Now",
-      role: "Technical Project Manager",
-      description:
-        "Schematics is an annual event organized by students of the Informatics Engineering Department at Institut Teknologi Sepuluh Nopember.",
-      tags: ["Linux", "NGINX", "Docker", "Grafana", "Cloudflare"],
-    },
-    {
-      id: 2,
-      org: "Schematics 2025",
-      period: "Sep 2025 — Oct 2025",
-      role: "Vice Director 2 — WebDev",
-      description:
-        "Schematics is an annual event organized by students of the Informatics Engineering Department at Institut Teknologi Sepuluh Nopember.",
-      tags: ["Linux", "NGINX", "Docker", "Grafana", "Cloudflare"],
-    },
-  ],
-};
 
 // 18 Polygonal Shards covering the card for the glass shatter explosion
 const SHARDS = [
@@ -760,7 +590,13 @@ const PersonaCardVisual = React.memo(function PersonaCardVisual({
   );
 });
 
-export default function ArcanaSection() {
+export default function ArcanaSection({
+  techStackByArcana,
+  volunteerByArcana,
+}: {
+  techStackByArcana?: Record<string, Record<string, TechStackItem[]>>;
+  volunteerByArcana?: Record<string, VolunteerItem[]>;
+} = {}) {
   // Slots: 0 (Left), 1 (Center), 2 (Right)
   // Mapping of card ID to current slot: Frontend (0), Backend (1), DevOps (2)
   const [cardSlots, setCardSlots] = useState<{ [id: string]: number }>({
@@ -1412,8 +1248,8 @@ export default function ArcanaSection() {
         createPortal(
           <AnimatePresence>
             {phase === "revealed" && selectedCard && (() => {
-              const cardTech = ARCANA_TECH_STACK[selectedCard.id] || {};
-              const cardVolunteer = ARCANA_VOLUNTEER_EXPERIENCES[selectedCard.id] || [];
+              const cardTech = (techStackByArcana ?? ARCANA_TECH_STACK)[selectedCard.id] || {};
+              const cardVolunteer = (volunteerByArcana ?? ARCANA_VOLUNTEER_EXPERIENCES)[selectedCard.id] || [];
               const cardLabel =
                 selectedCard.id === "frontend"
                   ? "Frontend"

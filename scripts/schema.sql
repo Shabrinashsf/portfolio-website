@@ -1,0 +1,55 @@
+-- Idempotent schema. Run via: bun run db:push
+CREATE TABLE IF NOT EXISTS works (
+  id SERIAL PRIMARY KEY,
+  org TEXT NOT NULL,
+  url TEXT,
+  period TEXT NOT NULL,
+  status TEXT NOT NULL DEFAULT 'completed',
+  role TEXT NOT NULL,
+  location TEXT NOT NULL,
+  bullets JSONB NOT NULL DEFAULT '[]',
+  tags JSONB NOT NULL DEFAULT '[]',
+  sort INTEGER NOT NULL DEFAULT 0
+);
+
+CREATE TABLE IF NOT EXISTS work_products (
+  id SERIAL PRIMARY KEY,
+  work_id INTEGER NOT NULL REFERENCES works(id) ON DELETE CASCADE,
+  name TEXT NOT NULL,
+  url TEXT,
+  description TEXT,
+  tags JSONB NOT NULL DEFAULT '[]',
+  sort INTEGER NOT NULL DEFAULT 0
+);
+
+CREATE TABLE IF NOT EXISTS techstacks (
+  id SERIAL PRIMARY KEY,
+  arcana TEXT NOT NULL,
+  category TEXT NOT NULL,
+  name TEXT NOT NULL,
+  icon TEXT,
+  size TEXT NOT NULL DEFAULT 'w-7 h-7',
+  sort INTEGER NOT NULL DEFAULT 0
+);
+
+CREATE TABLE IF NOT EXISTS experiences (
+  id SERIAL PRIMARY KEY,
+  arcana TEXT NOT NULL,
+  org TEXT NOT NULL,
+  period TEXT NOT NULL,
+  role TEXT NOT NULL,
+  description TEXT NOT NULL DEFAULT '',
+  tags JSONB NOT NULL DEFAULT '[]',
+  sort INTEGER NOT NULL DEFAULT 0
+);
+
+CREATE TABLE IF NOT EXISTS projects (
+  id SERIAL PRIMARY KEY,
+  name TEXT NOT NULL,
+  category TEXT NOT NULL,
+  status TEXT NOT NULL DEFAULT 'Stable',
+  description TEXT NOT NULL DEFAULT '',
+  tags JSONB NOT NULL DEFAULT '[]',
+  link TEXT NOT NULL DEFAULT '',
+  sort INTEGER NOT NULL DEFAULT 0
+);

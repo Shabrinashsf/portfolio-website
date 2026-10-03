@@ -3,19 +3,21 @@
 import { motion } from "framer-motion";
 import { ScrollReveal } from "@/components/animations";
 import GridBackground from "@/components/GridBackground";
+import { TECH_LOGOS as WORK_TECH_LOGOS } from "@/data/tech-logos";
+import { SEED_WORKS } from "@/data/seed";
 
 export interface ProductItem {
   name: string;
-  url?: string;
-  description?: string;
+  url?: string | null;
+  description?: string | null;
   tags: string[];
 }
 
 export interface ExperienceItem {
   id: number;
-  type: "work";
+  type?: "work";
   org: string;
-  url?: string;
+  url?: string | null;
   period: string;
   status: "active" | "completed";
   role: string;
@@ -26,87 +28,11 @@ export interface ExperienceItem {
   products?: ProductItem[];
 }
 
-const WORK_TECH_LOGOS: Record<string, string> = {
-  PHP: "/img/php.svg",
-  Laravel: "/img/laravel.svg",
-  PostgreSQL: "/img/postgresql.svg",
-  MySQL: "/img/mysql.svg",
-  MariaDB: "/img/mariadb.svg",
-  Go: "/img/go.svg",
-  Golang: "/img/go.svg",
-  Gin: "/img/gin.svg",
-  Docker: "/img/docker.svg",
-  NGINX: "/img/nginx.svg",
-  Inertia: "/img/inertia.svg",
-  "Three.js": "/img/threejs.svg",
-  ThreeJS: "/img/threejs.svg",
-  React: "/img/react.svg",
-};
-
-const experiences: ExperienceItem[] = [
-  {
-    id: 1,
-    type: "work",
-    org: "ADVISE",
-    period: "July 2026 – November 2026",
-    status: "completed",
-    role: "Fullstack Developer",
-    location: "Surabaya, Indonesia",
-    bullets: [
-      "Built the web interface of a DAST (Dynamic Application Security Testing for vulnerability scanning) platform using Laravel (Onion Architecture), InertiaJS, and React, so security operators can review and act on findings.",
-      "Aligned API contracts with the crawler team; modeled workflows after Invicti and Burp Suite.",
-    ],
-    tags: ["PHP", "Laravel", "Inertia", "React"],
-  },
-  {
-    id: 2,
-    type: "work",
-    org: "Direktorat Pengembangan dan Sistem Informasi ITS",
-    url: "https://www.its.ac.id/dptsi/",
-    period: "June 2026 – November 2026",
-    status: "completed",
-    role: "Fullstack Developer",
-    location: "Surabaya, Indonesia",
-    bullets: [
-      "Led the refactor of the Tracer Study platform from a Laravel 10 monolith to a modular monolith (DDD + CQRS, Laravel 12): 7 modules plus dynamic survey branching.",
-      "Built the Bursa Karir ITS virtual job fair: a 3D expo hall (Three.js, optimized GLB loader) and an admin CMS (Tailwind CSS) for event and booth management.",
-      "Migrated media to Cloudflare R2 with an encrypted proxy and WebP conversion; set up per-branch CI/CD deployment and docker containerization.",
-    ],
-    tags: ["PHP", "Laravel", "PostgreSQL", "MySQL", "Three.js", "Docker", "NGINX"],
-  },
-  {
-    id: 3,
-    type: "work",
-    org: "Dikmenum Dinas Pendidikan Jawa Timur",
-    url: "https://spmbjatim.net/",
-    period: "January 2026 – June 2026",
-    status: "completed",
-    role: "Junior Backend Developer",
-    location: "Surabaya, Indonesia",
-    bullets: [
-      "Supported SPMB Jawa Timur, a provincial student registration system with 500,000+ users, on the Internal Admin and School Portal modules, handling data engineering tasks and ad-hoc data extraction via complex MariaDB queries based on stakeholder requests.",
-      "Root-caused bugs in legacy PHP/Laravel codebase, adapted registration and verification flows to annual policy changes, and selective refactoring to Golang where needed.",
-    ],
-    tags: ["PHP", "Laravel", "Go", "MariaDB"],
-  },
-  {
-    id: 4,
-    type: "work",
-    org: "Jago Teknik",
-    url: "https://jagoteknik.id/",
-    period: "February 2026 – March 2026",
-    status: "completed",
-    role: "Backend Developer",
-    location: "Surabaya, Indonesia · Remote",
-    bullets: [
-      "Co-designed the database schema and RBAC for a learning platform, cutting estimated development time by 50%.",
-      "Built Golang (Gin, Gorm) APIs with PostgreSQL for authentication, dashboards, data export, and tutor performance monitoring, with API docs and ERD.",
-    ],
-    tags: ["Go", "Gin", "PostgreSQL"],
-  },
-];
-
-export default function ExperienceTimeline() {
+export default function ExperienceTimeline({ works }: { works?: ExperienceItem[] }) {
+  const experiences: ExperienceItem[] =
+    works && works.length > 0
+      ? works
+      : SEED_WORKS.map((w, i) => ({ ...w, id: -(i + 1), type: "work" as const }));
   return (
     <section
       id="work"

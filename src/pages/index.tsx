@@ -11,7 +11,10 @@ import {
 } from "@/components/animations";
 import GridBackground from "@/components/GridBackground";
 import ArcanaSection from "@/components/ArcanaSection";
+import type { TechStackItem, VolunteerItem } from "@/components/ArcanaSection";
 import ExperienceTimeline from "@/components/ExperienceTimeline";
+import type { ExperienceItem } from "@/components/ExperienceTimeline";
+import { getWorks, getTechstacks, getExperiences } from "@/lib/queries";
 
 const techStack = ["Go", "Gin", "PHP", "Laravel", "NextJS", "TypeScript", "Tailwind CSS"];
 
@@ -35,7 +38,15 @@ const itemVariants: Variants = {
   },
 };
 
-export default function Home() {
+export default function Home({
+  works,
+  techStackByArcana,
+  volunteerByArcana,
+}: {
+  works: ExperienceItem[];
+  techStackByArcana: Record<string, Record<string, TechStackItem[]>>;
+  volunteerByArcana: Record<string, VolunteerItem[]>;
+}) {
   const router = useRouter();
   const [workTopSpacing, setWorkTopSpacing] = useState<number | null>(null);
 
@@ -490,7 +501,10 @@ export default function Home() {
         </div>
 
         {/* Pick Shab Arcana (Persona 3 Edition) */}
-        <ArcanaSection />
+        <ArcanaSection
+          techStackByArcana={techStackByArcana}
+          volunteerByArcana={volunteerByArcana}
+        />
 
         {/* Dynamic spacer to equalize distance between Arcana cards and Work heading, placed outside #work */}
         {workTopSpacing !== null && workTopSpacing > 0 && (
@@ -498,8 +512,17 @@ export default function Home() {
         )}
 
         {/* Work Experience Section */}
-        <ExperienceTimeline />
+        <ExperienceTimeline works={works} />
       </div>
     </>
   );
+}
+
+export async function getStaticProps() {
+  const [works, techStackByArcana, volunteerByArcana] = await Promise.all([
+    getWorks(),
+    getTechstacks(),
+    getExperiences(),
+  ]);
+  return { props: { works, techStackByArcana, volunteerByArcana }, revalidate: 30 };
 }

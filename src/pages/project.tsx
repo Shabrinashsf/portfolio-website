@@ -1,7 +1,8 @@
 import Head from "next/head";
 import ProjectsSection from "@/components/ProjectsSection";
+import { getProjects } from "@/lib/queries";
 
-export default function Project() {
+export default function Project({ projects }: { projects: Awaited<ReturnType<typeof getProjects>> }) {
   return (
     <>
       <Head>
@@ -11,7 +12,12 @@ export default function Project() {
           content="Featured projects by Shabrina Amalia Safaana - Backend Developer."
         />
       </Head>
-      <ProjectsSection />
+      <ProjectsSection projects={projects} />
     </>
   );
+}
+
+export async function getStaticProps() {
+  const projects = await getProjects();
+  return { props: { projects }, revalidate: 30 };
 }

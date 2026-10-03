@@ -4,6 +4,8 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ScrollReveal } from "@/components/animations";
 import GridBackground from "@/components/GridBackground";
+import { TECH_LOGOS as PROJECT_TECH_LOGOS } from "@/data/tech-logos";
+import { SEED_PROJECTS } from "@/data/seed";
 
 type Project = {
   id: number;
@@ -15,112 +17,9 @@ type Project = {
   link: string;
 };
 
-const projects: Project[] = [
-  {
-    id: 1,
-    name: "Golang-Gin-Gorm Boilerplate",
-    category: "Boilerplate",
-    status: "Stable",
-    description:
-      "A complete template for building robust, scalable, and production-ready REST API backends using Go. This boilerplate implements Clean Architecture with modern best practices in Go backend development.",
-    tags: ["Go", "Gin", "Gorm", "PostgreSQL"],
-    link: "https://github.com/Shabrinashsf/go-gin-gorm-boilerplate",
-  },
-  {
-    id: 2,
-    name: "IF Semester Mapping Schedule",
-    category: "Utility",
-    status: "Stable",
-    description:
-      "An application to read and map lecture schedules from Excel files, then organize and export data based on study programs, semesters, and other course information.",
-    tags: ["Go", "Excel"],
-    link: "https://github.com/Shabrinashsf/IF-Jadwal-Semester-Mapping-Schedule",
-  },
-  {
-    id: 3,
-    name: "University Problem",
-    category: "Utility",
-    status: "Stable",
-    description:
-      "A curated collection of programming assignments and projects from my undergraduate studies.",
-    tags: [],
-    link: "https://github.com/Shabrinashsf/Uni-Prob",
-  },
-  {
-    id: 4,
-    name: "RPLibrary Backend API",
-    category: "API",
-    status: "Stable",
-    description:
-      "RPLibrary Backend API for the RPL Lab library management system, which supports authentication and authorization, book catalog management, book borrowing, returns, and waitlists.",
-    tags: ["Go", "Gin", "Gorm", "PostgreSQL"],
-    link: "https://github.com/Shabrinashsf/rpl-LIB",
-  },
-  {
-    id: 5,
-    name: "ADRIFT Backend API",
-    category: "API",
-    status: "Stable",
-    description:
-      "Academic Dependency Route & Integrated FRS Tracker (ADRIFT) is a web-based application designed to help students at Institut Teknologi Sepuluh Nopember (ITS) plan their academic journey. It provides a visual representation of course dependencies, allowing students to easily track their progress and plan future semesters effectively.",
-    tags: ["Go", "Gin", "Gorm", "PostgreSQL"],
-    link: "https://github.com/Shabrinashsf/ADRIFT-backend",
-  },
-  {
-    id: 6,
-    name: "ADRIFT Frontend",
-    category: "Frontend",
-    status: "Stable",
-    description:
-      "Academic Dependency Route & Integrated FRS Tracker (ADRIFT) is a web-based application designed to help students at Institut Teknologi Sepuluh Nopember (ITS) plan their academic journey. It provides a visual representation of course dependencies, allowing students to easily track their progress and plan future semesters effectively.",
-    tags: ["NextJS", "TypeScript", "Tailwind CSS"],
-    link: "https://github.com/Shabrinashsf/ADRIFT-frontend",
-  },
-  {
-    id: 7,
-    name: "Boogle Solver",
-    category: "Frontend",
-    status: "Stable",
-    description:
-      "This app is a solver for the game Boggle, built using Next.js, TypeScript, and Tailwind CSS. The project provides a web interface for generating letter grids, finding all valid words, or checking a target word on the grid.",
-    tags: ["NextJS", "Go", "TypeScript", "Tailwind CSS"],
-    link: "https://github.com/Shabrinashsf/Boogle-Solver",
-  },
-  {
-    id: 8,
-    name: "NestJS-TypeORM Boilerplate",
-    category: "Boilerplate",
-    status: "Stable",
-    description:
-      "A production-ready NestJS boilerplate with Clean Architecture principles, featuring automatic authentication CRUD system.",
-    tags: ["NestJS", "TypeORM", "PostgreSQL"],
-    link: "https://github.com/Shabrinashsf/nestjs-api-boilerplate",
-  },
-];
-
 const filters = ["All", "API", "Boilerplate", "Utility", "Frontend"] as const;
 
 type FilterType = (typeof filters)[number];
-
-const PROJECT_TECH_LOGOS: Record<string, string> = {
-  Go: "/img/go.svg",
-  Golang: "/img/go.svg",
-  Gin: "/img/gin.svg",
-  Gorm: "/img/gorm.svg",
-  PostgreSQL: "/img/postgresql.svg",
-  MySQL: "/img/mysql.svg",
-  MariaDB: "/img/mariadb.svg",
-  PHP: "/img/php.svg",
-  Laravel: "/img/laravel.svg",
-  Docker: "/img/docker.svg",
-  NextJS: "/img/nextdotjs.svg",
-  TypeScript: "/img/typescript.svg",
-  TailwindCSS: "/img/tailwindcss.svg",
-  NestJS: "/img/nestjs.svg",
-  TypeORM: "/img/typeorm.svg",
-  Excel: "/img/excel.svg",
-  React: "/img/react.svg",
-};
 
 function getProjectSlug(link: string, name: string) {
   if (link && link.includes("github.com/")) {
@@ -233,14 +132,18 @@ const FILTER_THEMES: Record<
   Frontend: { bg: "#f59e0b", text: "#131317" },
 };
 
-export default function ProjectsSection() {
+export default function ProjectsSection({ projects }: { projects?: Project[] }) {
+  const items: Project[] =
+    projects && projects.length > 0
+      ? projects
+      : SEED_PROJECTS.map((p, i) => ({ ...p, id: -(i + 1) }));
   const [activeFilter, setActiveFilter] = useState<FilterType>("All");
   const [hoveredFilter, setHoveredFilter] = useState<FilterType | null>(null);
 
   const filtered =
     activeFilter === "All"
-      ? projects
-      : projects.filter((p) => p.category === activeFilter);
+      ? items
+      : items.filter((p) => p.category === activeFilter);
 
   return (
     <section
