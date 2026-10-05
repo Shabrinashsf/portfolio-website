@@ -121,7 +121,7 @@ export default function ExperienceTimeline({ works }: { works?: ExperienceItem[]
                 </p>
 
                 {/* Line 4: Bullets list OR Description */}
-                {item.bullets && item.bullets.length > 0 ? (
+                {Array.isArray(item.bullets) && item.bullets.length > 0 ? (
                   <ul className="space-y-2.5 mb-5 font-[Plus_Jakarta_Sans] text-sm sm:text-base leading-relaxed" style={{ color: "var(--text-secondary)" }}>
                     {item.bullets.map((bullet, idx) => (
                       <li key={idx} className="flex items-start gap-2.5">
@@ -143,7 +143,7 @@ export default function ExperienceTimeline({ works }: { works?: ExperienceItem[]
                 ) : null}
 
                 {/* Line 5: Modular Products Grid (DPSI ITS) OR Standard Tech Dock */}
-                {item.products && item.products.length > 0 ? (
+                {Array.isArray(item.products) && item.products.length > 0 ? (
                   <div
                     className="mt-5 pt-5 border-t"
                     style={{ borderColor: "var(--border-color)" }}
@@ -210,7 +210,7 @@ export default function ExperienceTimeline({ works }: { works?: ExperienceItem[]
                               TECH:
                             </span>
                             <div className="flex flex-wrap items-center gap-1.5">
-                              {prod.tags.map((t) => (
+                              {(Array.isArray(prod.tags) ? prod.tags : []).map((t) => (
                                 <div
                                   key={t}
                                   className="tech-icon-box"
@@ -237,7 +237,7 @@ export default function ExperienceTimeline({ works }: { works?: ExperienceItem[]
                     </div>
                   </div>
                 ) : (
-                  item.tags &&
+                  Array.isArray(item.tags) &&
                   item.tags.length > 0 && (
                     <div
                       className="flex items-center gap-2 pt-3 border-t"
@@ -250,7 +250,7 @@ export default function ExperienceTimeline({ works }: { works?: ExperienceItem[]
                         TECH:
                       </span>
                       <div className="flex flex-wrap items-center gap-1.5">
-                        {item.tags.map((tag) => (
+                        {(Array.isArray(item.tags) ? item.tags : []).map((tag) => (
                           <div
                             key={tag}
                             className="tech-icon-box"

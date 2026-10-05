@@ -24,6 +24,12 @@ export interface WorkRow {
   products: WorkProduct[];
 }
 
+export interface TechStackItem {
+  name: string;
+  icon: string;
+  size?: string;
+}
+
 export interface TechstackRow {
   id: number;
   arcana: "frontend" | "backend" | "devops";

@@ -387,7 +387,7 @@ export default function CollectionAdmin({
         const json = await res.json();
         if (!res.ok) throw new Error(json.error ?? "Failed to load");
         if (!cancelled) {
-          setRows(json.data);
+          setRows(Array.isArray(json.data) ? json.data : []);
           setLoadError(null);
         }
       } catch (e) {

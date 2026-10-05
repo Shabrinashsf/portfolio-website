@@ -287,7 +287,7 @@ export default function ProjectsSection({ projects }: { projects?: Project[] }) 
                     >
                       {/* Left: Tech Stack Icons */}
                       <div className="flex items-center gap-1.5 flex-wrap">
-                        {project.tags && project.tags.length > 0 ? (
+                        {Array.isArray(project.tags) && project.tags.length > 0 ? (
                           project.tags.map((tag) => (
                             <div
                               key={tag}

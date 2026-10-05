@@ -1,5 +1,5 @@
 import type {
-  WorkRow, TechstackRow, ExperienceRow, ProjectRow, WorkProduct,
+  WorkRow, TechstackRow, ExperienceRow, ProjectRow, WorkProduct, TechStackItem,
 } from "@/lib/collections";
 import { SEED_WORKS, SEED_TECHSTACKS, SEED_EXPERIENCES, SEED_PROJECTS } from "@/data/seed";
 import { getDb } from "@/lib/db";
@@ -53,8 +53,8 @@ function seedWorks(): WorkRow[] {
   }));
 }
 
-// --- Techstacks (grouped by arcana, preserving category order via sort) -----
-export async function getTechstacks(): Promise<Record<string, TechstackRow[]>> {
+// --- Techstacks (grouped by arcana then category, preserving sort) ----------
+export async function getTechstacks(): Promise<Record<string, Record<string, TechStackItem[]>>> {
   const sql = getDb();
   if (!sql) return groupTechstacks(seedTechstacks());
   try {
@@ -70,10 +70,15 @@ function seedTechstacks(): TechstackRow[] {
   return SEED_TECHSTACKS.map((t, i) => ({ id: -(i + 1), sort: i + 1, size: "w-7 h-7", ...t }));
 }
 
-function groupTechstacks(rows: TechstackRow[]): Record<string, TechstackRow[]> {
-  const out: Record<string, TechstackRow[]> = {};
+function groupTechstacks(rows: TechstackRow[]): Record<string, Record<string, TechStackItem[]>> {
+  const out: Record<string, Record<string, TechStackItem[]>> = {};
   for (const r of rows) {
-    (out[r.arcana] ??= []).push(r);
+    const byArcana = (out[r.arcana] ??= {});
+    (byArcana[r.category] ??= []).push({
+      name: r.name,
+      icon: r.icon,
+      size: r.size,
+    });
   }
   return out;
 }
@@ -98,7 +103,10 @@ function seedExperiences(): ExperienceRow[] {
 function groupExperiences(rows: ExperienceRow[]): Record<string, ExperienceRow[]> {
   const out: Record<string, ExperienceRow[]> = {};
   for (const r of rows) {
-    (out[r.arcana] ??= []).push(r);
+    (out[r.arcana] ??= []).push({
+      ...r,
+      tags: Array.isArray(r.tags) ? r.tags : [],
+    });
   }
   return out;
 }

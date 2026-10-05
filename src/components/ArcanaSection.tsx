@@ -1248,8 +1248,18 @@ export default function ArcanaSection({
         createPortal(
           <AnimatePresence>
             {phase === "revealed" && selectedCard && (() => {
-              const cardTech = (techStackByArcana ?? ARCANA_TECH_STACK)[selectedCard.id] || {};
-              const cardVolunteer = (volunteerByArcana ?? ARCANA_VOLUNTEER_EXPERIENCES)[selectedCard.id] || [];
+              const rawCardTech = (techStackByArcana ?? ARCANA_TECH_STACK)[selectedCard.id] || {};
+              const cardTech: Record<string, TechStackItem[]> = Array.isArray(rawCardTech)
+                ? (rawCardTech as (TechStackItem & { category?: string })[]).reduce<
+                    Record<string, TechStackItem[]>
+                  >((acc, item) => {
+                    const cat = item.category || "General";
+                    (acc[cat] ??= []).push({ name: item.name, icon: item.icon, size: item.size });
+                    return acc;
+                  }, {})
+                : rawCardTech;
+              const rawVolunteer = (volunteerByArcana ?? ARCANA_VOLUNTEER_EXPERIENCES)[selectedCard.id] || [];
+              const cardVolunteer = Array.isArray(rawVolunteer) ? rawVolunteer : [];
               const cardLabel =
                 selectedCard.id === "frontend"
                   ? "Frontend"
@@ -1257,7 +1267,7 @@ export default function ArcanaSection({
                     ? "Backend"
                     : "DevOps";
               const totalItems = Object.values(cardTech).reduce(
-                (acc, curr) => acc + curr.length,
+                (acc, curr) => acc + (Array.isArray(curr) ? curr.length : 0),
                 0
               );
 
@@ -1363,7 +1373,7 @@ export default function ArcanaSection({
                               {category}
                             </h4>
                             <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-4 gap-3">
-                              {items.map((item) => (
+                              {Array.isArray(items) && items.map((item) => (
                                 <motion.div
                                   key={item.name}
                                   className="tech-icon flex flex-col items-center select-none"
@@ -1480,7 +1490,7 @@ export default function ArcanaSection({
                                 className="flex items-center gap-1.5 mt-3 pt-2.5 border-t"
                                 style={{ borderColor: "var(--border-color)" }}
                               >
-                                {vol.tags
+                                {(Array.isArray(vol.tags) ? vol.tags : [])
                                   .filter((tag) => TECH_LOGOS[tag])
                                   .map((tag) => (
                                     <div
